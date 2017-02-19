@@ -1,0 +1,6 @@
+contentViewer/__pycache__
+scraper/__pycache__
+tldr/__pycache__
+contentViewer/*.pyc
+scraper/*.pyc
+tldr/*.pyc

@@ -9,13 +9,16 @@ from tld.utils import update_tld_names
 
 
 def crawl_for_sites():
-    update_tld_names()
     """Crawl the internet for websites"""
+    update_tld_names()
     news_sites = csv.writer(open('newsSites.csv', 'w', newline=''))
     # Stack of urls to that may contain
     urls_to_visit = ['https://www.yahoo.com/news/','https://news.google.com/','http://www.foxnews.com/','https://www.washingtonpost.com/',
                     'www.bbc.co.uk/news','https://www.nytimes.com/']
-    while urls_to_visit:
+    #TODO
+    # Still getting some duplicates
+
+    while len(urls_to_visit) < 500:
         try:
             # print(urls_to_visit[0])
             og_html = urllib.request.urlopen(urls_to_visit[0]).read()
@@ -26,13 +29,20 @@ def crawl_for_sites():
         # Make BeautifulSoup Object from webpage
         soup = BeautifulSoup(og_html, "html.parser")
 
-        # We want only sites with news in the title
-        titles = soup.findAll('title')
-        for title in titles:
-            content = ("".join(title.contents)).lower()
-            if "news" in content:
-                news_sites.writerow(current_site)
-                # Add new sites found on page to urls_to_visit
+        #Checks for news in meta description tags and will not fall for social media
+        desc = soup.findAll(attrs={"name":"description"})
+        try:
+            desc = desc[0]['content']
+            if 'news' in desc.lower() and 'twitter' not in desc.lower() and 'facebook' not in desc.lower() and 'instagram' not in desc.lower():
+                try:
+                    domain = get_tld(current_site)
+                    news_sites.writerow(domain)
+                    print(domain)
+                except:
+                    print("Exception at: " + current_site)
+        except:
+            pass
+
         for tag in soup.findAll('a', href=True):
             found_url = tag['href']
             try:
@@ -41,14 +51,13 @@ def crawl_for_sites():
                 count = 0
                 for website in urls_to_visit:
                     if domain in website:
-                        # Stop repeating domains
                         count = count + 1
-
+                        break
                 if count == 0:
-                    urls_to_visit.append(domain)
+                    urls_to_visit.append(found_url)
 
             except:
-                print("")
+                pass
 
 
 def crawl_articles():

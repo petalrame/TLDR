@@ -74,13 +74,13 @@ def crawl_articles():
                 website = website + i
             # Add website to queue
             urls_to_visit.append(website)
-            print(website)
             # Reset website
             website = ''
     while(urls_to_visit):
         # Make a soup of the website domain
         try:
-            og_html = urllib.request.urlopen(urls_to_visit[0]).read()
+            print(urls_to_visit[0])
+            og_html = urllib.request.urlopen('https://' + urls_to_visit[0]).read()
         except:
             print("URL can not be opened")
         current_site = urls_to_visit.pop(0)
@@ -94,17 +94,18 @@ def crawl_articles():
             desc = desc[0]['content'].lower()
             if 'article' in desc:
                 print(desc)
-                articles.writerow()
+                articles.writerow(current_site)
         except:
             pass
-        #Put all hrefs in urls_to_visit
+        # Put all hrefs in urls_to_visit
         for tag in soup.findAll('a', href=True):
             found_url = tag['href']
             urls_to_visit.append(found_url)
 
+
 def main():
     """Call the other methods"""
-    #crawl_for_sites()
+    # crawl_for_sites()
     crawl_articles()
     return
 

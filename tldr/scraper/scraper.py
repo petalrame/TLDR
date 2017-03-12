@@ -18,7 +18,7 @@ def crawl_for_sites():
     # TODO
     # Still getting some duplicates
     # BBC tld raises an exception
-    while len(urls_to_visit) < 500:
+    while(urls_to_visit):
         try:
             # print(urls_to_visit[0])
             og_html = urllib.request.urlopen(urls_to_visit[0]).read()
@@ -77,23 +77,34 @@ def crawl_articles():
             # Reset website
             website = ''
     while(urls_to_visit):
+        current_site = urls_to_visit.pop(0)
         # Make a soup of the website domain
         try:
-            print(urls_to_visit[0])
-            og_html = urllib.request.urlopen('https://' + urls_to_visit[0]).read()
+            print(current_site)
+            og_html = urllib.request.urlopen(urls_to_visit[0]).read()
         except:
-            print("URL can not be opened")
-        current_site = urls_to_visit.pop(0)
+            try:
+                og_html = urllib.request.urlopen('https://' + urls_to_visit[0]).read()
+            except:
+                continue
         # Make BeautifulSoup Object from webpage
         try:
             soup = BeautifulSoup(og_html, "html.parser")
         except:
             continue
-        desc = soup.findAll(attrs={"name": "aplicationName"})
+        article_identifier = soup.findAll(attrs={"name": "aplicationName"})
         try:
-            desc = desc[0]['content'].lower()
-            if 'article' in desc:
-                print(desc)
+            article_identifier = article_identifier[0]['content'].lower()
+            if 'article' in article_identifier:
+                print(article_identifier[0]['content'].lower())
+                articles.writerow(current_site)
+        except:
+            pass
+        article_identifier = soup.findAll(attrs={"property": "og:type"})
+        try:
+            article_identifier = article_identifier[0]['content'].lower()
+            if 'article' in article_identifier:
+                print("FOUND " + article_identifier[0]['content'].lower())
                 articles.writerow(current_site)
         except:
             pass

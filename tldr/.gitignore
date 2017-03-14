@@ -4,3 +4,5 @@ tldr/__pycache__
 contentViewer/*.pyc
 scraper/*.pyc
 tldr/*.pyc
+contentViewer/migrations/__pycache__
+scraper/migrations/__pycache__

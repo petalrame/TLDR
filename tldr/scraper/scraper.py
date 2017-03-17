@@ -20,7 +20,6 @@ def crawl_for_sites():
     # BBC tld raises an exception
     while(urls_to_visit):
         try:
-            # print(urls_to_visit[0])
             og_html = urllib.request.urlopen(urls_to_visit[0]).read()
         except:
             print("URL can not be opened")
@@ -61,11 +60,12 @@ def crawl_for_sites():
                 pass
 
 
-def crawl_articles():
+def crawl_for_articles():
     """Crawls through different articles in a domain"""
     urls_to_visit = []
     update_tld_names()
     articles = csv.writer(open('articles.csv', 'w', newline=''))
+
     with open('newsSites.csv') as csvfile:
         reader = csv.reader(csvfile)
         website = ''
@@ -73,51 +73,95 @@ def crawl_articles():
             for i in row:
                 website = website + i
             # Add website to queue
-            urls_to_visit.append(website)
+            urls_to_visit.append("https://"+website.lower())
             # Reset website
             website = ''
+
     while(urls_to_visit):
         current_site = urls_to_visit.pop(0)
         # Make a soup of the website domain
         try:
-            print(current_site)
-            og_html = urllib.request.urlopen(urls_to_visit[0]).read()
+            og_html = urllib.request.build_opener(
+                urllib.request.HTTPCookieProcessor).open(current_site)
         except:
-            try:
-                og_html = urllib.request.urlopen('https://' + urls_to_visit[0]).read()
-            except:
-                continue
+            continue
         # Make BeautifulSoup Object from webpage
         try:
             soup = BeautifulSoup(og_html, "html.parser")
         except:
             continue
-        article_identifier = soup.findAll(attrs={"name": "aplicationName"})
+        # Looking for article in application name
         try:
-            article_identifier = article_identifier[0]['content'].lower()
-            if 'article' in article_identifier:
-                print(article_identifier[0]['content'].lower())
-                articles.writerow(current_site)
+            for name in soup.findAll(attrs={"name": "aplicationName"}):
+                if 'article' in name['content'].lower():
+                    articles.writerow(current_site)
+                    continue
         except:
             pass
-        article_identifier = soup.findAll(attrs={"property": "og:type"})
+        # Looking for article in og:type meta tag
         try:
-            article_identifier = article_identifier[0]['content'].lower()
-            if 'article' in article_identifier:
-                print("FOUND " + article_identifier[0]['content'].lower())
-                articles.writerow(current_site)
+            for name in soup.findAll(attrs={"property": "og:type"}):
+                if 'article' in name['content'].lower():
+                    articles.writerow(current_site)
+                    continue
         except:
             pass
+
         # Put all hrefs in urls_to_visit
         for tag in soup.findAll('a', href=True):
             found_url = tag['href']
-            urls_to_visit.append(found_url)
+            if found_url.lower() not in urls_to_visit:
+                urls_to_visit.append(found_url.lower())
+
+
+def scrape_articles():
+    """Scrapes individual articles for information"""
+    urls_to_visit = ['https://www.nytimes.com/2017/03/15/us/politics/trump-travel-ban.html?hp&action=click&pgtype=Homepage&clickSource=story-heading&module=a-lede-package-region&region=top-news&WT.nav=top-news']
+    articleInfo = csv.writer(open('articleInfo.csv', 'w', newline=''))
+
+    with open('articles.csv') as csvfile:
+        reader = csv.reader(csvfile)
+        website = ''
+        for row in reader:
+            for i in row:
+                website = website + i
+            # Add website to queue
+            if website not in urls_to_visit:
+                urls_to_visit.append(website)
+            # Reset website
+            website = ''
+
+    while(urls_to_visit):
+        article_info = ['article','title']
+        #Scraping set up
+        current_site = urls_to_visit.pop(0).lower()
+        try:
+            og_html = urllib.request.build_opener(urllib.request.HTTPCookieProcessor).open(current_site)
+        except:
+            continue
+        # Make BeautifulSoup Object from webpage
+        try:
+            soup = BeautifulSoup(og_html, "html.parser")
+        except:
+            continue
+        #End of setting up
+        article_content = ""
+        for tag in soup.findAll('p'):
+            article_content = article_content + "" + tag.getText().lower()
+        article_info[0] = article_content
+        try:
+            title = soup.find('h1', attrs={'itemprop': 'headline'}).getText()
+        except:
+            pass
+        article_info[1] = title
+        print(article_info[1])
 
 
 def main():
     """Call the other methods"""
-    # crawl_for_sites()
-    crawl_articles()
+    crawl_for_sites()
+    crawl_for_articles()
+    scrape_articles()
     return
 
 

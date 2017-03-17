@@ -116,7 +116,7 @@ def crawl_for_articles():
 
 def scrape_articles():
     """Scrapes individual articles for information"""
-    urls_to_visit = ['https://www.nytimes.com/2017/03/15/us/politics/trump-travel-ban.html?hp&action=click&pgtype=Homepage&clickSource=story-heading&module=a-lede-package-region&region=top-news&WT.nav=top-news']
+    urls_to_visit = []
     articleInfo = csv.writer(open('articleInfo.csv', 'w', newline=''))
 
     with open('articles.csv') as csvfile:

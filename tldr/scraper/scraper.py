@@ -73,7 +73,7 @@ def crawl_for_articles():
             for i in row:
                 website = website + i
             # Add website to queue
-            urls_to_visit.append("https://"+website.lower())
+            urls_to_visit.append("https://" + website.lower())
             # Reset website
             website = ''
 
@@ -117,7 +117,7 @@ def crawl_for_articles():
 def scrape_articles():
     """Scrapes individual articles for information"""
     urls_to_visit = []
-    articleInfo = csv.writer(open('articleInfo.csv', 'w', newline=''))
+    article_stats = csv.writer(open('articleInfo.csv', 'w', newline=''))
 
     with open('articles.csv') as csvfile:
         reader = csv.reader(csvfile)
@@ -132,11 +132,12 @@ def scrape_articles():
             website = ''
 
     while(urls_to_visit):
-        article_info = ['article','title']
-        #Scraping set up
+        article_info = ['article', 'title']
+        # Scraping set up
         current_site = urls_to_visit.pop(0).lower()
         try:
-            og_html = urllib.request.build_opener(urllib.request.HTTPCookieProcessor).open(current_site)
+            og_html = urllib.request.build_opener(
+                urllib.request.HTTPCookieProcessor).open(current_site)
         except:
             continue
         # Make BeautifulSoup Object from webpage
@@ -144,7 +145,7 @@ def scrape_articles():
             soup = BeautifulSoup(og_html, "html.parser")
         except:
             continue
-        #End of setting up
+        # End of setting up
         article_content = ""
         for tag in soup.findAll('p'):
             article_content = article_content + "" + tag.getText().lower()
@@ -155,6 +156,8 @@ def scrape_articles():
             pass
         article_info[1] = title
         print(article_info[1])
+        for stat in article_info:
+            article_stats.writerow(stat)
 
 
 def main():

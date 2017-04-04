@@ -20,16 +20,19 @@ class Article extends Component {
 }
 
 const divStyle = {
+	backgroundColor: 'rgba(129, 158, 201, 0.4)', 
 	color: 'grey',
 	textAlign: 'center',
-	padding: 10
+	padding: 10,
+	width: '80%',
+	margin: '0 auto'
 }
 
 const imgStyle = {
 	width: 400,
-	height:300,
+	height: 300,
 	opacity: 0.8,
-	inlineBlock: 'left'
+	verticalAlign: 'left'
 }
 
 export default Article;

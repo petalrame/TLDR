@@ -62,7 +62,7 @@ def crawl_for_sites():
 
 def crawl_for_articles():
     """Crawls through different articles in a domain"""
-    urls_to_visit = []
+    urls_to_visit = ['https//google.com']
     update_tld_names()
     articles = csv.writer(open('articles.csv', 'w', newline=''))
 
@@ -153,17 +153,22 @@ def scrape_articles():
         try:
             title = soup.find('h1', attrs={'itemprop': 'headline'}).getText()
         except:
-            pass
+            title = "N/A"
         article_info[1] = title
         print(article_info[1])
+        print()
+        #Put info in csv
         for stat in article_info:
-            article_stats.writerow(stat)
+            try:
+                article_stats.writerow(stat)
+            except:
+                pass
 
 
 def main():
     """Call the other methods"""
-    crawl_for_sites()
-    crawl_for_articles()
+    #crawl_for_sites()
+    #crawl_for_articles()
     scrape_articles()
     return
 

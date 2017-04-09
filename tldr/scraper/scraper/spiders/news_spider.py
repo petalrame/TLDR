@@ -40,7 +40,7 @@ urls = []
 with open('news_sites.csv') as csv:
     for row in csv:
         urls.append(row)
-urls.pop(0)
+
 
 
 class article_finder(CrawlSpider):

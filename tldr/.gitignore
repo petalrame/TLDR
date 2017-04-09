@@ -6,3 +6,4 @@ scraper/*.pyc
 tldr/*.pyc
 contentViewer/migrations/__pycache__
 scraper/migrations/__pycache__
+scraper/scraper/news_sites.csv

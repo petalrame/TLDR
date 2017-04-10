@@ -40,7 +40,7 @@ urls = []
 with open('news_sites.csv') as csv:
     for row in csv:
         urls.append(row)
-
+urls.pop(0)
 
 
 class article_finder(CrawlSpider):
@@ -57,24 +57,25 @@ class article_finder(CrawlSpider):
     def parse_article(self, response):
         """Identifies articles and calls helper method to scrape data"""
         # CSS selector grabs article titles
+        article_information_h3 = ['title', 'article_content']
         for title in response.css('h3 a::attr(href)'):
-            print(response.url)
-            #print('calling function with ' + title.extract())
-            self.scrape_article('' + title)
-
+            article_information = self.scrape_article(title.extract())
         # Some sites have h3 some have h1 some have neither
+        article_information_h1 = ['title', 'article_content']
         for title in response.css('h1 a::attr(href)'):
             # urljoin puts together broken links
             try:
-                self.scrape_article(response.urljoin(title.extract()))
+                article_information_h1 = self.scrape_article(
+                    response.urljoin(title.extract()))
             except:
                 pass
+        # TODO Compare which of h1 or h3 yields better information to yield to DB
 
-    def scrape_article(url):
+    def scrape_article(self, url):
         """scrapes data and yields results to csv"""
-        print("scraping")
         article_info = ['title', 'article_content']
-        current_site = response.url
+        current_site = url
+        print(current_site)
         url = urllib2.urlopen(current_site).read()
         # Make soup object
         soup = BeautifulSoup(url, 'html.parser')
@@ -87,5 +88,4 @@ class article_finder(CrawlSpider):
             article_content = article_content + "" + tag.getText().lower()
         article_info[0] = title
         article_info[1] = article_content
-        # print(article_info[0])
-        yield article_info
+        return article_info

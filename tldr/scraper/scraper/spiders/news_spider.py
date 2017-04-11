@@ -57,25 +57,31 @@ class article_finder(CrawlSpider):
     def parse_article(self, response):
         """Identifies articles and calls helper method to scrape data"""
         # CSS selector grabs article titles
+        #Master list of article info lists
+        article_list = []
+        #article info list
         article_information_h3 = ['title', 'article_content']
         for title in response.css('h3 a::attr(href)'):
-            article_information = self.scrape_article(title.extract())
+            article_information_h3 = self.scrape_article(response.urljoin(title.extract()))
+            if(article_information_h3[0] != 'N/A'):
+                article_list.append(article_information_h3)
         # Some sites have h3 some have h1 some have neither
         article_information_h1 = ['title', 'article_content']
         for title in response.css('h1 a::attr(href)'):
-            # urljoin puts together broken links
             try:
-                article_information_h1 = self.scrape_article(
-                    response.urljoin(title.extract()))
+                # urljoin puts together broken links
+                article_information_h1 = self.scrape_article(response.urljoin(title.extract()))
             except:
                 pass
-        # TODO Compare which of h1 or h3 yields better information to yield to DB
-
+            # If the article info found good data add article info list to master list
+            if(article_information_h1[0] != 'N/A' and article_information_h1[0] != 'title'):
+            article_list.append(article_information_h3)
+        print(article_list)
+        
     def scrape_article(self, url):
         """scrapes data and yields results to csv"""
         article_info = ['title', 'article_content']
         current_site = url
-        print(current_site)
         url = urllib2.urlopen(current_site).read()
         # Make soup object
         soup = BeautifulSoup(url, 'html.parser')

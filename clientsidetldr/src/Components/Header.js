@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom'
 
+import Home from './Home'
+
 const Links = () => 
 	<nav>
 		<li><Link to="/">Home</Link></li>
@@ -21,7 +23,7 @@ class Header extends Component {
 					<h1>TLDR</h1>
 					<Links />
 					<Switch>
-						<Route exact path="/" render={() => <h1>Home</h1>} />
+						<Route exact path="/" component={Home} />
 						<Route exact path="/politics" render={() => <h1>Politics</h1>} />
 						<Route exact path="/economy" render={() => <h1>Economy</h1>} />
 						<Route exact path="/tech" render={() => <h1>Tech</h1>} />

@@ -8,3 +8,4 @@ contentViewer/migrations/__pycache__
 scraper/migrations/__pycache__
 scraper/scraper/news_sites.csv
 scraper/news_sites.csv
+TLDR/tldr/scraper/article_info.csv

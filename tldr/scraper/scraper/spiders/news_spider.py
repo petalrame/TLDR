@@ -58,26 +58,28 @@ class article_finder(CrawlSpider):
         """Identifies articles and calls helper method to scrape data"""
         # CSS selector grabs article titles
         #Master list of article info lists
-        article_list = []
+        article_list = dict()
         #article info list
-        article_information_h3 = ['title', 'article_content']
+        article_information_h3 = []
         for title in response.css('h3 a::attr(href)'):
-            article_information_h3 = self.scrape_article(response.urljoin(title.extract()))
-            if(article_information_h3[0] != 'N/A'):
-                article_list.append(article_information_h3)
+            article_information_h3.append( self.scrape_article(response.urljoin(title.extract())) )
+            if(article_information_h3[0] != 'N/A' and len(article_information_h3) == 2):
+                title = ''.join(article_information_h3[0])
+                article_list.update({title:article_information_h3[1]})
         # Some sites have h3 some have h1 some have neither
-        article_information_h1 = ['title', 'article_content']
+        article_information_h1 = []
         for title in response.css('h1 a::attr(href)'):
             try:
                 # urljoin puts together broken links
-                article_information_h1 = self.scrape_article(response.urljoin(title.extract()))
+                article_information_h1.append( self.scrape_article(response.urljoin(title.extract())) )
             except:
                 pass
             # If the article info found good data add article info list to master list
-            if(article_information_h1[0] != 'N/A' and article_information_h1[0] != 'title'):
-            article_list.append(article_information_h3)
-        print(article_list)
-        
+            if(article_information_h1[0] != 'N/A' and article_information_h1[0] != 'title' and len(article_information_h1) == 2):
+                title = ''.join(article_information_h1[0])
+                article_list.update({title:article_information_h1[1]})
+                yield article_list
+
     def scrape_article(self, url):
         """scrapes data and yields results to csv"""
         article_info = ['title', 'article_content']

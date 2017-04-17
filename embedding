@@ -1,0 +1,95 @@
+##this assumes that all data is formatted correctly
+
+import pandas as pd       
+train = pd.read_csv(r"C:\Users\Public\New folder\tldrData.csv", header=0, delimiter="\t", quoting=3)
+#use tabs because commas are used in language
+#quoting=3 to ignore double quotes in actual language
+
+
+
+train.shape
+#to print out the shape of our array and make sure it's good    
+
+train.columns.values
+# will print out this --> array([id, sentiment, article], dtype=object)
+print (train["article"][0])
+
+#thing i copied from internet to clean paragraphs of text
+def article_to_words( raw_paragraph ):
+    # Function to convert a raw review to a string of words
+    # The input is a single string 
+    # the output is a single string 
+    #
+    # 1. Remove HTML
+    one_text = BeautifulSoup(raw_paragraph).get_text() 
+    #
+    # 2. Remove non-letters        
+    letters_only = re.sub("[^a-zA-Z]", " ", one_text) 
+    #
+    # 3. Convert to lower case, split into individual words
+    words = letters_only.lower().split()                             
+    #
+    # 4. In Python, searching a set is much faster than searching
+    #   a list, so convert the stop words to a set
+    stops = set(stopwords.words("english"))                  
+    # 
+    # 5. Remove stop words
+    meaningful_words = [w for w in words if not w in stops]   
+    #
+    # 6. Join the words back into one string separated by space, 
+    # and return the result.
+    return( " ".join( meaningful_words ))
+
+
+
+###to process one paragraph of data
+#clean_article = articleToWords( train["article"][0] )
+#print (clean_article)
+
+
+
+# Get the number of reviews based on the dataframe column size
+num_articles = train["article"].size
+
+# Initialize an empty list to hold the clean reviews
+clean_train_articles = []
+
+# Loop over each article; create an index i that goes from 0 to the length
+# of the movie review list 
+for i in range( 0, num_articles ):
+    # Call our function for each one, and add the result to the list of
+    # clean reviews
+    clean_train_articles.append( article_to_words( train["article"][i] ) )
+
+
+
+
+
+print ("Creating the bag of words...\n")
+from sklearn.feature_extraction.text import CountVectorizer
+
+# Initialize the "CountVectorizer" object, which is scikit-learn's
+# bag of words tool.  
+vectorizer = CountVectorizer(analyzer = "word",   \
+                             tokenizer = None,    \
+                             preprocessor = None, \
+                             stop_words = None,   \
+                             max_features = 5000) #change this to the number of words you want to consider
+
+# fit_transform() does two functions: First, it fits the model
+# and learns the vocabulary; second, it transforms our training data
+# into feature vectors. The input to fit_transform should be a list of 
+# strings.
+train_data_features = vectorizer.fit_transform(clean_train_articles)
+
+# Numpy arrays are easy to work with, so convert the result to an 
+# array
+train_data_features = train_data_features.toarray()
+
+
+# Take a look at the words in the vocabulary
+vocab = vectorizer.get_feature_names()
+print (vocab)
+
+
+

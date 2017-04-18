@@ -22,7 +22,7 @@ NEWSPIDER_MODULE = 'scraper.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 200
 
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
@@ -35,14 +35,26 @@ ROBOTSTXT_OBEY = False
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = False
 
+#Something Docs told me to do
+REACTOR_THREADPOOL_MAXSIZE = 20
+
+#Log Level
+LOG_LEVEL = 'INFO'
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
 
+#Dont retry failed requests for speed
+RETRY_ENABLED = False
+
+#Timeout speed good for fast connections comment out when on slow internet
+DOWNLOAD_TIMEOUT = 15
 # Override the default request headers:
 #DEFAULT_REQUEST_HEADERS = {
 #   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 #   'Accept-Language': 'en',
 #}
+AJAXCRAWL_ENABLED = True
+
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html

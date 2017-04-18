@@ -81,14 +81,14 @@ class article_finder(CrawlSpider):
             except:
                 pass
             # If the article info found good data add article info list to master list
-            if(article_information_h1[0] != 'N/A' and article_information_h1[0] != 'title' and len(article_information_h1) == 2):
+            if(len(article_information_h1) == 2):
                 title = ''.join(article_information_h1[0])
                 article_list.update({title:article_information_h1[1]})
                 yield article_list
 
     def scrape_article(self, url):
         """scrapes data and yields results to csv"""
-        article_info = ['title', 'article_content']
+        article_info = []
         current_site = url
         url = urllib2.urlopen(current_site).read()
         # Make soup object
@@ -96,10 +96,10 @@ class article_finder(CrawlSpider):
         article_content = ""
         try:
             title = soup.find('h1', attrs={'itemprop': 'headline'}).getText()
+            article_info.append(title)
         except:
-            title = "N/A"
+            pass
         for tag in soup.findAll('p'):
             article_content = article_content + "" + tag.getText().lower()
-        article_info[0] = title
-        article_info[1] = article_content
+        article_info.append(article_content)
         return article_info

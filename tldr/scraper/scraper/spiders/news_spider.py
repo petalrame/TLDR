@@ -6,12 +6,12 @@ from scrapy.selector import Selector
 import urllib2
 from bs4 import BeautifulSoup
 import csv
-
+from urlparse import urlsplit
 
 class site_finder(CrawlSpider):
     name = 'sites'
-
-    start_urls = ['http://www.kadaza.com/news']
+    #Attempting to begin crawl at a google search
+    start_urls = ['https://google.com/search?q=news','http://www.kadaza.com/news']
     # Allow any url pattern
     # Deny social media sites from the crawl_for_site
     # Each website that is hit calls the parse_item method
@@ -23,16 +23,23 @@ class site_finder(CrawlSpider):
     def parse_item(self, response):
         """Compiles a dictionary of news websites to be put in a csv"""
         current_site = response.url
-        url = urllib2.urlopen(current_site).read()
+        try:
+            url = urllib2.urlopen(current_site).read()
+        except:
+            return
+        website_info = []
         soup = BeautifulSoup(url, 'html.parser')
         desc = soup.findAll(attrs={"name": "description"})
+        website_info = dict()
         try:
             desc = desc[0]['content']
             if 'news' in desc.lower():
+                website_info.update({'URL':response.url})
                 print(response.url)
-                yield{'List of Websites': response.url}
+                yield website_info
         except:
             pass
+
 
 
 # Start urls dynamically identified globally
@@ -40,7 +47,6 @@ urls = []
 with open('news_sites.csv') as csv:
     for row in csv:
         urls.append(row)
-urls.pop(0)
 
 
 class article_finder(CrawlSpider):

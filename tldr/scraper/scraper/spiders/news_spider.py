@@ -43,15 +43,16 @@ class site_finder(CrawlSpider):
 
 
 # Start urls dynamically identified globally
+"""
 urls = []
 with open('news_sites.csv') as csv:
     for row in csv:
         urls.append(row)
-
+"""
 
 class article_finder(CrawlSpider):
     name = 'articles'
-    start_urls = urls
+    start_urls = ['http://www.foxnews.com/','http://www.nytimes.com/','http://www.wsj.com/','http://www.cnn.com/']
     # Alllow all domains
     # Deny social media
     # Calls parse_article for each URL
@@ -101,5 +102,7 @@ class article_finder(CrawlSpider):
             pass
         for tag in soup.findAll('p'):
             article_content = article_content + "" + tag.getText().lower()
+        print(article_content)
+        print(title)
         article_info.append(article_content)
         return article_info

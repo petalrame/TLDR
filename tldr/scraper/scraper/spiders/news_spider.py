@@ -102,7 +102,6 @@ class article_finder(CrawlSpider):
             pass
         for tag in soup.findAll('p'):
             article_content = article_content + "" + tag.getText().lower()
-        print(article_content)
-        print(title)
         article_info.append(article_content)
         return article_info
+        

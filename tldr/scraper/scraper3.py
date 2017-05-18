@@ -11,17 +11,17 @@ def scrape():
     nytimes = newspaper.build('http://nytimes.com',memoize_articles=False)
     wsj = newspaper.build('http://wsj.com',memoize_articles=False)
 
-    papers = [slate_paper, tc_paper, espn_paper]
+    papers = [usa, nytimes, wsj]
     news_pool.set(papers, threads_per_source=2) # (3*2) = 6 threads total
     news_pool.join()
-    
+
     #USA Today
     for article in usa.articles:
         article.parse()
         #Article object init
         article_obj = dict()
         #Fill the object
-        article_obj.update({'title':article.title})new
+        article_obj.update({'title':article.title})
         article_obj.update({'body':article.text})
         article_obj.update({'author':article.authors})
         articles.append(article_obj)
@@ -45,6 +45,7 @@ def scrape():
         article_obj.update({'body':article.text})
         article_obj.update({'author':article.authors})
         articles.append(article_obj)
+        print(article.title)
 
 
 def main():

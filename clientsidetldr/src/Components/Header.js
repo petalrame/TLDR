@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 
-import Home from './Home'
-
-const divStyle = {
-	backgroundColor: 'grey'
-}
+import Home from './Home/Home.js';
 
 const Links = () => 
 	<div>
@@ -31,10 +28,14 @@ const Links = () =>
 	</div>
 
 class Header extends Component {
+	componentDidMount() {
+		ReactDOM.render(<Home />, document.getElementById("container"));
+		console.log("Component Did Mount in Header.js");
+	}
 	render() {
 		return (
 			<Router>
-				<div style={divStyle}>
+				<div>
 					<Switch>
 							<Links />
 							<Route exact path="/" component={Home} />
@@ -47,6 +48,7 @@ class Header extends Component {
 							<Route exact path="/health" render={() => <h1>Health</h1>} />
 					<Route render={() => <h1>Home</h1>} />
 					</Switch>
+					<div id="container"></div>
 				</div>
 			</Router>
 		);

@@ -1,0 +1,41 @@
+:local(.outerbox) {
+	border: solid #c0c0c0 0.1em;
+	margin: 5px 40px;
+	background-color: #f0ffff;
+	height: 100%;
+}
+
+:local(.outerbox:hover) {
+	background-color: #ffe4c4;
+}
+
+:local(.pic) {
+	width: 100px;
+	height: 100px;
+	display: inline;
+	margin: 30px 10px;
+	border: solid
+}
+
+:local(.likebox) {
+	display: inline-block;
+	width:50px;
+	position: relative;
+	top: 18px;
+}
+
+:local(.like) {
+	margin: 5px;
+}
+
+:local(.description) {
+	width: 800px;
+	display: inline-block;
+	margin: 0px 50px;
+	text-align: center;
+}
+
+:local(.textDescription) {
+	word-wrap: break-word;
+	font-size: 1.6em;
+}

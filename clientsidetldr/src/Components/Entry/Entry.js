@@ -1,0 +1,25 @@
+import React, { Component } from 'react';
+import styles from "./Entry.css";
+
+import pic from "./images/cat3.jpg";
+import upPic from "./images/chevron-up.png";
+import downPic from "./images/chevron-down.png";
+
+class Entry extends Component {
+	render() {
+		return(
+			<div className={styles.outerbox}>
+				<div className={styles.likebox}>
+					<img className={styles.like} src={upPic} alt="Image Not Available"></img>
+					<img className={styles.like} src={downPic} alt="Image Not Available"></img>
+				</div>
+				<img src={pic} className={styles.pic} alt="Cat picture not displaying"></img>
+				<div className={styles.description}>
+					<p className={styles.textDescription}>Description Goes Here</p>
+				</div>
+			</div>
+		);
+	}
+}
+
+export default Entry;

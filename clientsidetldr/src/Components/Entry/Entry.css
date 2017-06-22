@@ -28,8 +28,13 @@
 	margin: 5px;
 }
 
+:local(.link) {
+	width: 100%;
+	height: 100%;
+}
+
 :local(.description) {
-	width: 800px;
+	width: 70%;
 	display: inline-block;
 	margin: 0px 50px;
 	text-align: center;

@@ -1,0 +1,6 @@
+:local(.outerbox) {
+	background-color: rgba(178, 76, 76, 0.5);
+	margin: 30px;
+	height: 100%;
+	text-align: center;
+}

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import styles from "./Article.css";
 
 class Article extends Component {
 	render() {
+		console.log("We here");
 		return(
-			<div style={divStyle}>
+			<div className={styles.outerbox}>
 				<h3>Article Title</h3>
-				<img style={imgStyle} src={this.state.imgsrc} />
 				<p>Article Content</p>
 			</div>
 		);

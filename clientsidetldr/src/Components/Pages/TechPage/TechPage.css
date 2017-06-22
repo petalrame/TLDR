@@ -1,0 +1,5 @@
+:local(.home) {
+	background-color: rgba(175, 192, 189, 0.5);
+	height: 100%;
+	margin: 30px;
+}

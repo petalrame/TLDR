@@ -5,3 +5,11 @@ from django.http import HttpResponse
 
 def loadSite(request):
 	return HttpResponse("Ram Sucks")
+
+"""This function fetches information from the database"""
+def dbGet(request):
+    return null
+
+"""This function posts data to the database"""
+def dbPost(request):
+    return null

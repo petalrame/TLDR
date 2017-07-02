@@ -1,0 +1,25 @@
+.navbar {
+	background: rgb(50, 56, 56);
+}
+
+.link {
+	color: white !important;
+	font-weight: bold;
+	font-size: 18px;
+	margin: 0 10px;
+}
+
+.navbar-brand {
+	color: rgb(215, 228, 228) !important;
+	font-size: 30px;
+}
+
+.navbar-collapse {
+	display: flex;
+}
+
+.navbar-nav {
+	width: 90%;
+	display: column;
+	justify-content: space-between;
+}

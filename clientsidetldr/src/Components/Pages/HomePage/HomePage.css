@@ -1,5 +1,9 @@
 :local(.home) {
+	display: flex;
+	flex-direction: column;
 	background-color: rgba(175, 192, 189, 0.5);
 	height: 100%;
 	margin: 30px;
+	border: .2em solid rgba(22, 114, 114, 0.7);
+	border-radius: 10px;
 }

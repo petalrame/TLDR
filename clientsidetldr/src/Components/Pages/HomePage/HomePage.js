@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import styles from "./HomePage.css";
 
 import Entry from "../../Entry/Entry.js";
@@ -7,8 +8,9 @@ class HomePage extends Component {
 	render() {
 		return(
 			<div className={styles.home}>
-				<h1>HomePage</h1>
-				<Entry />
+				<Link to="/1">
+					<Entry />
+				</Link>
 			</div>
 		);
 	}

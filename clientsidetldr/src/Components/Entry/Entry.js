@@ -21,9 +21,7 @@ class Entry extends Component {
 				</div>
 				<img src={pic} className={styles.pic} alt="Not Available"></img>
 				<div className={styles.description}>
-					<Link to="cat" className={styles.link} onClick={() => this.onClick()}>
-						<h2>Title goes here</h2>
-					</Link>
+					<h2 className={styles.link}>Title goes here</h2>
 					<p className={styles.textDescription}>Description Goes Here</p>
 				</div>
 			</div>

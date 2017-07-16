@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
 	'contentViewer',
 	'scraper',
-	'django_cassandra_engine',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,17 +77,26 @@ WSGI_APPLICATION = 'tldr.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django_cassandra_engine',
-        'NAME': 'djangoCassandraDB',
-	'TEST_NAME': 'test_djangoCassandraDB',
-	'HOST': '',
-	'OPTIONS': {
-		'replication': {
-			'strategy_class': 'SimpleStrategy',
-			'replication_factor': 1
-		}
-	}
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tldr',
+	'USER': 'tldrviewer',
+	'PASSWORD': 'Ram965',
+	'HOST': 'localhost',
+	'PORT': '',
+    },
+
+    #'cassandra': {
+    #    'ENGINE': 'django_cassandra_engine',
+    #    'NAME': 'djangoCassandraDB',
+    #	'TEST_NAME': 'test_djangoCassandraDB',
+    #	'HOST': '',
+#	'OPTIONS': {
+#		'replication': {
+#			'strategy_class': 'SimpleStrategy',
+#			'replication_factor': 1
+#		}
+#	}
+#    }
 }
 
 

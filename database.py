@@ -1,24 +1,44 @@
 import psycopg2
-#TODO(Sam) Insert correct values in all these methods
 global conn
-def init():
-    conn = psycopg2.connect(database="testdb", user = "postgres", password = "pass123", host = "127.0.0.1", port = "5432")
-def create_table():
+
+def initialize_postgres():
+    """ Connects to Postgres Database which contains all of the tables"""
+    try:
+        conn = psycopg2.connect(
+            database="testdb",
+            user = "postgres",
+            password = "pass123",
+            host = "127.0.0.1",
+            port = "5432")
+        except:
+            print "Error: Not able to connect to the database"
+
+def create_user_table():
+    """Creates a Postgres table representing information about our users"""
     cur = conn.cursor()
-    cur.execute('''CREATE TABLE COMPANY
-      (ID INT PRIMARY KEY     NOT NULL,
-      NAME           TEXT    NOT NULL,
-      AGE            INT     NOT NULL,
-      ADDRESS        CHAR(50),
-      SALARY         REAL);''')
+    cur.execute('''CREATE TABLE Users
+      (UserID INT PRIMARY KEY     NOT NULL,
+      Username           TEXT    NOT NULL,
+      Email            TEXT     NOT NULL,
+      Taglist         TEXT[]);''')
       print ("Table created successfully")
       conn.commit()
       conn.close()
 
-def insert():
+def create_aricle_list_table():
+    """Creates a Postgres table representing our agregated list of articles"""
+
+def create_event_object_list_table():
+    """Creates a Postgres table representing event objects"""
+
+def insert_into_table(table):
+    """Inserts data into a table in the database"""
     cur = conn.cursor()
-    cur.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
+    cur.execute("INSERT INTO" + table +  "(ID,NAME,AGE,ADDRESS,SALARY) \
       VALUES (1, 'Paul', 32, 'California', 20000.00 )");
+
 def delete():
-    cur.execute("DELETE from COMPANY where ID=2;")
+    """Deletes from the database"""
+    cur = conn.cursor()
+    cur.execute("DELETE from Users where ID=2;")
     conn.commit

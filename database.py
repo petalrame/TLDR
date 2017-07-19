@@ -5,11 +5,10 @@ def initialize_postgres():
     """ Connects to Postgres Database which contains all of the tables"""
     try:
         conn = psycopg2.connect(
-            database="testdb",
-            user = "postgres",
-            password = "pass123",
-            host = "127.0.0.1",
-            port = "5432")
+            database="tldr",
+            user = "tldrviewer",
+            password = "Ram965",
+            host = "localhost")
         except:
             print "Error: Not able to connect to the database"
 

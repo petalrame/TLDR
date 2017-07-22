@@ -23,6 +23,12 @@ def create_user_table():
       print ("Table created successfully")
       conn.commit()
       conn.close()
+      
+def add_event(title, summary, tags[]):
+    """Inserts a new event"""
+    cur = conn.cursor()
+    cur.execute("INSERT INTO" + table + "(TITLE,RANKING,SUMMARY,ARTICLES,TAGS )\
+      VALUES (" + title + "," + null + "," + summary + "," + tags +")")
 
 def create_aricle_list_table():
     """Creates a Postgres table representing our agregated list of articles"""

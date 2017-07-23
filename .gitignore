@@ -9,3 +9,4 @@ tldr/scraper/migrations/__pycache__
 tldr/scraper/scraper/news_sites.csv
 tldr/scraper/news_sites.csv
 tldr/scraper/article_info.csv
+venv/

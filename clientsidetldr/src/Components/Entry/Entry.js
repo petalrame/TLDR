@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 import styles from "./Entry.css";
 import pic from "./images/cat3.jpg";
@@ -8,12 +6,14 @@ import upPic from "./images/chevron-up.png";
 import downPic from "./images/chevron-down.png";
 
 class Entry extends Component {
+	constructor() {
+		super();
+	}
 	onClick() {
 		console.log("Entry clicked");
 	}
 	render() {
 		return(
-			<Router>
 			<div className={styles.outerbox}>
 				<div className={styles.likebox}>
 					<img className={styles.like} src={upPic} alt="Not Available"></img>
@@ -21,11 +21,10 @@ class Entry extends Component {
 				</div>
 				<img src={pic} className={styles.pic} alt="Not Available"></img>
 				<div className={styles.description}>
-					<h2 className={styles.link}>Title goes here</h2>
+					<h2 className={styles.link}>{this.props.title}</h2>
 					<p className={styles.textDescription}>Description Goes Here</p>
 				</div>
 			</div>
-			</Router>
 		);
 	}
 }

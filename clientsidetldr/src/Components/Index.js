@@ -14,56 +14,56 @@ import ArticlePage from './Pages/ArticlePage/Article';
 const politicsControl = () => (
 	<Switch>
 		<Route exact path="/politics" component={PoliticsPage} />
-		<Route path="/politics/:number" render={() => <ArticlePage />} />
+		<Route path="/politics/:number" component={ArticlePage} />
 	</Switch>
 )
 
 const economyControl = () => (
 	<Switch>
 		<Route exact path="/economy" component={EconomyPage} />
-		<Route path="/economy/:number" render={() => <ArticlePage />} />
+		<Route path="/economy/:number" component={ArticlePage} />
 	</Switch>
 )
 
 const techControl = () => (
 	<Switch>
 		<Route exact path="/tech" component={TechPage} />
-		<Route path="/tech/:number" render={() => <ArticlePage />} />
+		<Route path="/tech/:number" component={ArticlePage} />
 	</Switch>
 )
 
 const sportsControl = () => (
 	<Switch>
 		<Route exact path="/sports" component={SportsPage} />
-		<Route path="/sports/:number" render={() => <ArticlePage />} />
+		<Route path="/sports/:number" component={ArticlePage} />
 	</Switch>
 )
 
 const fashionControl = () => (
 	<Switch>
 		<Route exact path="/fashion" component={FashionPage} />
-		<Route path="/fashion/:number" render={() => <ArticlePage />} />
+		<Route path="/fashion/:number" component={ArticlePage} />
 	</Switch>
 )
 
 const crimeControl = () => (
 	<Switch>
 		<Route exact path="/crime" component={CrimePage} />
-		<Route path="/crime/:number" render={() => <ArticlePage />} />
+		<Route path="/crime/:number" component={ArticlePage} />
 	</Switch>
 )
 
 const healthControl = () => (
 	<Switch>
 		<Route exact path="/health" component={HealthPage} />
-		<Route path="/health/:number" render={() => <ArticlePage />} />
+		<Route path="/health/:number" component={ArticlePage} />
 	</Switch>
 )
 
 const homeControl = () => (
 	<Switch>
 		<Route exact path="/" component={HomePage} />
-		<Route path="/:number" render={() => <ArticlePage />} />
+		<Route path="/:number" component={ArticlePage} />
 	</Switch>
 )
 

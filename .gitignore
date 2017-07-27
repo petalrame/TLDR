@@ -10,3 +10,4 @@ tldr/scraper/scraper/news_sites.csv
 tldr/scraper/news_sites.csv
 tldr/scraper/article_info.csv
 venv/
+tldr/scraper/virtual_scraper_env/

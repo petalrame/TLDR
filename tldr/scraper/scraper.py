@@ -1,12 +1,13 @@
+"""Newspaper is a library for extracting & curating articles."""
 import newspaper
 # news_pool async library
 from newspaper import news_pool
+# Master list
+articles = []
 
 
-def scrape():
-    """Uses the Newspaper library to parse news websites for content"""
-    # Master list
-    articles = []
+def initialize_scraper():
+    """Use the Newspaper library to parse news websites for data."""
     # Build Papers
     usa = newspaper.build('https://www.usatoday.com/', memoize_articles=False)
     nytimes = newspaper.build('http://nytimes.com', memoize_articles=False)
@@ -16,41 +17,28 @@ def scrape():
     news_pool.set(papers, threads_per_source=2)  # (3*2) = 6 threads total
     news_pool.join()
 
-    # USA Today
-    for article in usa.articles:
+    for source in papers:
+        scrape(source)
+
+
+def scrape(source):
+    """Collect article information. Takes a source object as a parameter."""
+    for article in source.articles:
         article.parse()
-        # Article object init
+        # Dictionary that contains article information
         article_obj = dict()
-        # Fill the object
-        article_obj.update({'title': article.title})
-        article_obj.update({'body': article.text})
-        article_obj.update({'author': article.authors})
-        articles.append(article_obj)
-    # NY Times
-    for article in nytimes.articles:
-        article.parse()
-        # Article object init
-        article_obj = dict()
-        # Fill the object
-        article_obj.update({'title': article.title})
-        article_obj.update({'body': article.text})
-        article_obj.update({'author': article.authors})
-        articles.append(article_obj)
-    # Washington Street Journal
-    for article in wsj.articles:
-        article.parse()
-        # Article object init
-        article_obj = dict()
-        # Fill the object
-        article_obj.update({'title': article.title})
-        article_obj.update({'body': article.text})
-        article_obj.update({'author': article.authors})
+        # Populate the dict with fields from articles
+        article_obj.update({'title': article.title,
+                            'body': article.text,
+                            'author': article.authors
+                            })
         articles.append(article_obj)
         print(article.title)
 
 
 def main():
-    scrape()
+    """Run scrapy.py this is called."""
+    initialize_scraper()
 
 
 if __name__ == "__main__":

@@ -9,16 +9,14 @@ articles = []
 def initialize_scraper():
     """Use the Newspaper library to parse news websites for data."""
     # Build Papers
-    usa = newspaper.build('https://www.usatoday.com/', memoize_articles=False)
+    fox = newspaper.build('https://www.foxnews.com/', memoize_articles=False)
     nytimes = newspaper.build('http://nytimes.com', memoize_articles=False)
     wsj = newspaper.build('http://wsj.com', memoize_articles=False)
 
-    papers = [usa, nytimes, wsj]
+    papers = [fox, nytimes, wsj]
     news_pool.set(papers, threads_per_source=2)  # (3*2) = 6 threads total
     news_pool.join()
-
-    for source in papers:
-        scrape(source)
+    scrape(fox)
 
 
 def scrape(source):
@@ -28,10 +26,8 @@ def scrape(source):
         # Dictionary that contains article information
         article_obj = dict()
         # Populate the dict with fields from articles
-        article_obj.update({'title': article.title,
-                            'body': article.text,
-                            'author': article.authors
-                            })
+        article_obj.update({'title': article.title, 'body': article.text,
+                            'author': article.authors})
         articles.append(article_obj)
         print(article.title)
 

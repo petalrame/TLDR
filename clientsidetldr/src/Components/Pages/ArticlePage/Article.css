@@ -1,6 +1,83 @@
 :local(.outerbox) {
 	background-color: rgba(178, 76, 76, 0.5);
+	border: .2em solid #ffcccc;
+	border-radius: 15px;
 	margin: 30px;
 	height: 100%;
 	text-align: center;
+}
+
+:local(.wordContent) {
+	text-align: left;
+	margin: 30px;
+	background: #ffffcc;
+	font-size: 20px;
+	padding: 30px;
+	font-family: sans-serif;
+	border: .1em solid black;
+	border-radius: 20px;
+}
+
+:local(.title) {
+	font-family: georgia;
+	font-style: italic;
+	margin: 40px;
+}
+
+:local(.Image) {
+	border: .1em solid #b8b894;
+	border-radius: 20px;
+}
+
+:local(.infoBox) {
+	display: inline-flex;
+	justify-content: center;
+	background: white;
+	margin: 0px 40px;
+	padding: 40px;
+	border: .2em solid #f5f5f0;
+	border-radius: 30px;
+}
+
+:local(.pageInfoBox) {
+	border: .1em solid #b8b894;
+	margin-left: 40px;
+	border-radius: 20px;
+	padding: 30px;
+}
+
+:local(.logo) {
+	width: 50px;
+	height: 50px;
+}
+
+:local(.socialMediaBox) {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+:local(.likeBox) {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+:local(.like) {
+	opacity: 0.5;
+	font-size: 45px;
+}
+
+:local(.like:hover) {
+	opacity: 1;
+}
+
+:local(.likeBoxContainer) {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+:local(.likeCount) {
+	margin: 20px;
+	opacity: 0.5;
 }

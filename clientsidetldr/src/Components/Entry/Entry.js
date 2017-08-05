@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import styles from "./Entry.css";
-import pic from "./images/cat3.jpg";
-import upPic from "./images/chevron-up.png";
-import downPic from "./images/chevron-down.png";
+import pic from "../images/cat3.jpg";
+import upPic from "../images/chevron-up.png";
+import downPic from "../images/chevron-down.png";
 
 class Entry extends Component {
 	constructor() {

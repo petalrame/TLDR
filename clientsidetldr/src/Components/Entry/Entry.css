@@ -1,8 +1,9 @@
 :local(.outerbox) {
-	border: solid #c0c0c0 0.1em;
+	border: 0.1em solid #c0c0c0;
 	margin: 5px 40px;
 	background-color: #f0ffff;
 	height: 100%;
+	border-radius: 25px;
 }
 
 :local(.outerbox:hover) {

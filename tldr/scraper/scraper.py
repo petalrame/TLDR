@@ -1,14 +1,17 @@
 """Newspaper is a library for extracting & curating articles."""
 import newspaper
+import datetime
 from newspaper import news_pool
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
 article_list = []
 
 
-def initialize_scraper():
-    """Build newspaper objects and parse and download them."""
+def get_source_list():
+    """Build newspaper objects for scraping. Returns a list."""
     # Build Papers Objects to be downloaded and parsed for data extraction.
+    tech_crunch = newspaper.build(
+        'https://www.techcrunch.com/', memoize_articles=False)
     fox = newspaper.build('https://www.foxnews.com/', memoize_articles=False)
     nytimes = newspaper.build('http://nytimes.com', memoize_articles=False)
     wsj = newspaper.build('http://wsj.com', memoize_articles=False)
@@ -16,24 +19,23 @@ def initialize_scraper():
     cnn = newspaper.build('http://cnn.com', memoize_articles=False)
     breit = newspaper.build('http://breitbart.com', memoize_articles=False)
 
-    papers = [fox, nytimes, wsj, bbc, cnn, breit]
-    # news_pool.set(papers, threads_per_source=2)  # (3*2) = 6 threads total
-    # news_pool.join()
-    for source in papers:
-        for article in source.articles:
-            scrape(article)
+    papers = [tech_crunch, fox, nytimes, wsj, bbc, cnn, breit]
+    return papers
 
 
-def scrape(article):
+def scrape(sources):
     """Scrape the source article."""
-    article.download()
-    article.parse()
-    article_obj = dict()
-    article_obj.update({'title': article.title,
-                        'body': article.text,
-                        'author': article.authors,
-                        'datetime': ""})
-
+    for article in sources.articles:
+        article.download()
+        article.parse()
+        article_obj = dict()
+        print(article.title)
+        print(article.text)
+        print(article.authors)
+        article_obj.update({'title': article.title,
+                            'body': article.text,
+                            'author': article.authors,
+                            'datetime': datetime.datetime.now()})
     article_list.append(article_obj)
 
 
@@ -45,5 +47,6 @@ def display_data():
 
 
 if __name__ == "__main__":
-    initialize_scraper()
+    sources = get_source_list()
+    scrape(sources)
     display_data()

@@ -1,10 +1,10 @@
 """Newspaper is a library for extracting & curating articles."""
 import newspaper
 import datetime
-from newspaper import news_pool
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
 article_list = []
+TIME_INTERVAL = 1
 
 
 def get_source_list():
@@ -25,18 +25,19 @@ def get_source_list():
 
 def scrape(sources):
     """Scrape the source article."""
-    for article in sources.articles:
-        article.download()
-        article.parse()
-        article_obj = dict()
-        print(article.title)
-        print(article.text)
-        print(article.authors)
-        article_obj.update({'title': article.title,
-                            'body': article.text,
-                            'author': article.authors,
-                            'datetime': datetime.datetime.now()})
-    article_list.append(article_obj)
+    for source in sources:
+        for article in source.articles:
+            article.download()
+            article.parse()
+            article_obj = dict()
+            print(article.title)
+            print(article.text)
+            print(article.authors)
+            article_obj.update({'title': article.title,
+                                'body': article.text,
+                                'author': article.authors,
+                                'datetime': datetime.datetime.now()})
+        article_list.append(article_obj)
 
 
 def display_data():
@@ -46,7 +47,13 @@ def display_data():
             print(article[key])
 
 
-if __name__ == "__main__":
+def run_scraper():
+    """Call all necessary scraper functions. Runs every hour."""
+    print("Running")
     sources = get_source_list()
     scrape(sources)
     display_data()
+
+
+if __name__ == "__main__":
+    run_scraper

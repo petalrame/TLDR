@@ -30,9 +30,6 @@ def scrape(sources):
             article.download()
             article.parse()
             article_obj = dict()
-            print(article.title)
-            print(article.text)
-            print(article.authors)
             article_obj.update({'title': article.title,
                                 'body': article.text,
                                 'author': article.authors,
@@ -49,10 +46,11 @@ def display_data():
 
 def run_scraper():
     """Call all necessary scraper functions. Runs every hour."""
-    print("Running")
+    print("Running...")
     sources = get_source_list()
     scrape(sources)
     display_data()
+    print("The internet has been thoroughly scraped.")
 
 
 if __name__ == "__main__":

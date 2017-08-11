@@ -45,7 +45,7 @@ def display_data():
 
 
 def run_scraper():
-    """Call all necessary scraper functions. Runs every hour."""
+    """Call all necessary scraper functions."""
     print("Running...")
     sources = get_source_list()
     scrape(sources)

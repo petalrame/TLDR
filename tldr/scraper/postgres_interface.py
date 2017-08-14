@@ -1,4 +1,4 @@
-"""Provides an inteface for adding data to the article_object table."""
+"""Provides an interface for adding data to the article_object table."""
 import psycopg2
 conn = None
 

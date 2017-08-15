@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -33,3 +33,24 @@ class UserInteractionsViewSet(viewsets.ViewSet):
 		serializer = EventSerializer(data, many=True)		
 
 		return Response(serializer.data, content_type='json')
+
+	@list_route(methods=['GET'])
+	def get_content_by_tag_name(self, request):
+		requestdata = request.query_params	#contains data sent by client
+		tag = requestdata['tag']
+
+		data = Event.objects.filter(tags__contains=[tag])
+		serializer = EventSerializer(data, many=True)
+
+		return Response(serializer.data, content_type="json")
+
+	@detail_route(methods=['POST'])
+	def like(self, request, pk):
+		likeUpdate = int(request.data['likestatus'])		#like or dislike
+
+		#updates Element Ranking based on like or dislike
+		elementToUpdate = Event.objects.get(id=pk)
+		elementToUpdate.ranking = elementToUpdate.ranking + likeUpdate
+		elementToUpdate.save()
+
+		return Response(status=status.HTTP_200_OK)

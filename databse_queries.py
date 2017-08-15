@@ -36,7 +36,7 @@ def add_event(title, summary, tags):
         print("Error adding event to database")
 
 def getRowById(id):
-	"""gets Row From database by ID"""
+    """gets Row From database by ID"""
     cur = conn.cursor
     try:
         cur.execute("SELECT FROM" + "EventObjectList" + "WHERE ID =" + id)

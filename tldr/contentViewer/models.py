@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 class Event(models.Model):
+	id = models.AutoField(primary_key=True)
 	title = models.CharField(max_length = 200)
 	ranking = models.PositiveIntegerField()
 	summary = models.TextField()

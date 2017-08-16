@@ -1,4 +1,0 @@
-import scraper
-
-if __name__ == "__main__":
-  scraper.run_scraper

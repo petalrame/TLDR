@@ -31,7 +31,7 @@ def scrape(sources):
             article.parse()
             print(article.title)
             postgres_interface.connect()
-            postgres_interface.insert(6, ''.join(article.authors), ''.join(article.url), ''.join(article.text))
+            postgres_interface.insert(''.join(article.authors), ''.join(article.url), ''.join(article.text))
 
 
 def display_data():

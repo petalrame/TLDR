@@ -1,6 +1,7 @@
-"""Newspaper is a library for extracting & curating articles."""
+"""Scrape data (urls, authors, content, titles) from articles."""
 import newspaper
 import datetime
+import postgres_interface
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
 article_list = []
@@ -34,6 +35,8 @@ def scrape(sources):
                                 'body': article.text,
                                 'author': article.authors,
                                 'datetime': datetime.datetime.now()})
+            postgres_interface.insert
+            (1, article.authors, article.url, article.text)
         article_list.append(article_obj)
 
 
@@ -47,6 +50,7 @@ def display_data():
 def run_scraper():
     """Call all necessary scraper functions."""
     print("Running...")
+    postgres_interface.connect()
     sources = get_source_list()
     scrape(sources)
     display_data()

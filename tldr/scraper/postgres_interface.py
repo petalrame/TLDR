@@ -16,7 +16,7 @@ def connect():
 
 
 def insert(id, authors, url, content):
-    """Insert data into column."""
+    """Insert data into column. PARAMETERS: (unique id for postgres, etc.)"""
     cur = conn.cursor()
     cur.execute("INSERT INTO \"article_objects\" \
                 VALUES (" + str(id) + ",'" + authors + "','"

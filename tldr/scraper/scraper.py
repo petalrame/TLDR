@@ -44,7 +44,6 @@ def display_data():
 def run_scraper():
     """Call all necessary scraper functions."""
     print("Running...")
-    postgres_interface.connect()
     sources = get_source_list()
     scrape(sources)
     print("Scraper has completed.")

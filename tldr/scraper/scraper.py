@@ -18,7 +18,6 @@ def get_source_list():
     bbc = newspaper.build('http://bbcnews.com', memoize_articles=True)
     cnn = newspaper.build('http://cnn.com', memoize_articles=True)
     breit = newspaper.build('http://breitbart.com', memoize_articles=True)
-
     papers = [tech_crunch, fox, nytimes, wsj, bbc, cnn, breit]
     return papers
 
@@ -29,8 +28,7 @@ def scrape(sources):
         for article in source.articles:
             article.download()
             article.parse()
-            print(article.title)
-            postgres_interface.insert(''.join(article.authors), ''.join(article.url), ''.join(article.text))
+            postgres_interface.insert(''.join(article.authors), ''.join(article.url), ''.join(article.text),''.join(article.title))
 
 
 def display_data():
@@ -49,4 +47,4 @@ def run_scraper():
 
 
 if __name__ == "__main__":
-    run_scraper
+    run_scraper()

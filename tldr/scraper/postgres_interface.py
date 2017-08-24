@@ -6,11 +6,10 @@ connection_str = "dbname='article_database'\
 conn = psycopg2.connect(connection_str)
 
 
-def insert(authors, url, content):
+def insert(authors, url, content, title):
     """Insert data into column. PARAMETERS: (unique id for postgres, etc.)"""
     print("Inserting into DB")
     cur = conn.cursor()
-    cur.execute("INSERT INTO article_objects VALUES(" + "\'" + authors + "','" + url + "','" + content + "')");
+    cur.execute("INSERT INTO article_objects VALUES('" + authors + "','" + url + "','" + content + "','" + title + "')");
     conn.commit()
     print ("Records created successfully")
-    conn.close()

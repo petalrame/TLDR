@@ -85,6 +85,12 @@ DATABASES = {
 	'HOST': 'localhost',
 	'PORT': '',
     },
+    'articles': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'article_database',
+	'USER': 'samwasserman',
+	'PASSWORD': '#Dowhile97',
+    },
 
     #'cassandra': {
     #    'ENGINE': 'django_cassandra_engine',

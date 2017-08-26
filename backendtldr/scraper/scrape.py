@@ -1,7 +1,7 @@
 """Scrape data (urls, authors, content, titles) from articles."""
 import newspaper
-import datetime
-import postgres_interface
+from models import article
+from django.utils import timezone
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
 article_list = []
@@ -28,7 +28,8 @@ def scrape(sources):
         for article in source.articles:
             article.download()
             article.parse()
-            postgres_interface.insert(''.join(article.authors), ''.join(article.url), ''.join(article.text),''.join(article.title))
+            a = article(title = ''.join(article.title), authors = ''.join(article.authors), content = ''.join(article.text),date = timezone.now())
+            a.save()
 
 
 def display_data():

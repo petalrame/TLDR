@@ -3,14 +3,57 @@ import { Link } from 'react-router-dom';
 import styles from "./SportsPage.css";
 
 import Entry from "../../Entry/Entry.js";
+import EntrySortButtons from "../EntrySortOptions/EntrySortButtons.js"
 
 class SportsPage extends Component {
+	constructor() {
+		super();
+		this.state = {
+			content: [],
+		}
+
+		this.getEntryData = this.getEntryData.bind(this);
+	}
+	componentDidMount() {
+		this.getEntryData(3);
+	}
+	getEntryData(numb) {
+		let self = this;
+		
+		if (numb == 1) {
+			console.log("Top Rated");
+		}
+		else if (numb == 2) {
+			console.log("Most Viewed");
+		}
+		else if (numb == 3) {
+			console.log("Most Recent");
+		}
+
+		fetch("/api/get_content_by_tag_name?tag=Sports").then(function(response) {
+			var contentType = response.headers.get("content-type");
+			if (contentType && contentType.includes("application/json")) {
+				return response.json();
+			}
+			throw new TypeError("Error: Didn't receive JSON");
+		}).then(function(json) {
+			self.setState({
+				content: json
+			});
+		}).catch(function(error) {
+			console.log(error);
+		});
+	}
 	render() {
 		return(
-			<div className={styles.home}>
-				<Link to="/sports/1">
-					<Entry />
-				</Link>
+			<div className={styles.page}>
+				{console.log("Meow")}
+				<EntrySortButtons changeEntryOrder={this.getEntryData}/>
+				{this.state.content.map((item) => (
+					<Link to={"/" + item.id} key={item.id} className={styles.link}>
+						<Entry title={item.title} ranking={item.ranking} summary={item.summary} />
+					</Link>
+				))}
 			</div>
 		);
 	}

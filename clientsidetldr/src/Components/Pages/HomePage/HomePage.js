@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from "./HomePage.css";
 
 import Entry from "../../Entry/Entry.js";
+import EntrySortButtons from "../EntrySortOptions/EntrySortButtons.js"
 
 class HomePage extends Component {
 	constructor() {
@@ -10,32 +11,47 @@ class HomePage extends Component {
 		this.state = {
 			content: [],
 		}
+
+		this.getEntryData = this.getEntryData.bind(this);
 	}
 	componentDidMount() {
+		this.getEntryData(3);
+	}
+	getEntryData(numb) {
 		let self = this;
+		
+		if (numb == 1) {
+			console.log("Top Rated");
+		}
+		else if (numb == 2) {
+			console.log("Most Viewed");
+		}
+		else if (numb == 3) {
+			console.log("Most Recent");
+		}
 
-		fetch("http://localhost:3000/entries").then(function(response) {
+		fetch("/api/most_viewed/").then(function(response) {
 			var contentType = response.headers.get("content-type");
-			if (contentType && contentType.includes("application/json")) {
+			if (contentType && contentType.includes("json")) {
 				return response.json();
 			}
 			throw new TypeError("Error: Didn't receive JSON");
 		}).then(function(json) {
-			console.log(json);
 			self.setState({
 				content: json
 			});
-			console.log(self.state.content)
 		}).catch(function(error) {
 			console.log(error);
 		});
 	}
 	render() {
 		return(
-			<div className={styles.home}>
+			<div className={styles.page}>
+				{console.log("Meow")}
+				<EntrySortButtons changeEntryOrder={this.getEntryData}/>
 				{this.state.content.map((item) => (
-					<Link to={"/" + item.id} key={item.id}>
-						<Entry title={item.title} />
+					<Link to={"/" + item.id} key={item.id} className={styles.link}>
+						<Entry title={item.title} ranking={item.ranking} summary={item.summary} idval={item.id} />
 					</Link>
 				))}
 			</div>

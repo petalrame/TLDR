@@ -46,15 +46,16 @@
 	padding: 30px;
 }
 
-:local(.logo) {
-	width: 50px;
-	height: 50px;
-}
-
 :local(.socialMediaBox) {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
+	padding: 2px;
+}
+
+:local(.socialMediaBox > *) {
+	margin: 2px;
 }
 
 :local(.likeBox) {
@@ -71,10 +72,16 @@
 	opacity: 1;
 }
 
+:local(.likeselected) {
+	color: #00cccc;
+	opacity: 1;
+}
+
 :local(.likeBoxContainer) {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin: 10px;
 }
 
 :local(.likeCount) {

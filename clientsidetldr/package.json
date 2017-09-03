@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "axios": "^0.16.2",
     "css-loader": "^0.28.2",
     "prop-types": "^15.5.10",
     "react": "^15.4.2",

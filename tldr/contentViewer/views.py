@@ -54,3 +54,11 @@ class UserInteractionsViewSet(viewsets.ViewSet):
 		elementToUpdate.save()
 
 		return Response(status=status.HTTP_200_OK)
+
+	@detail_route(methods=['GET'])
+	def get_entry(self, request, pk):
+		entry = Event.objects.get(id=pk)
+
+		serializer = EventSerializer(entry)
+
+		return Response(serializer.data, content_type="json")

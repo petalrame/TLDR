@@ -1,4 +1,6 @@
 :local(.outerbox) {
+	display: flex;
+	align-items: center;
 	border: 0.1em solid #c0c0c0;
 	margin: 5px 40px;
 	background-color: #f0ffff;
@@ -19,19 +21,35 @@
 }
 
 :local(.likebox) {
-	display: inline-block;
-	width:50px;
-	position: relative;
-	top: 18px;
+	display: flex;
+	align-items: center;
+	width: 50px;
+}
+
+:local(.likebox > div) {
+	display: flex;
+	flex-direction: column;
+	margin: 6px;
 }
 
 :local(.like) {
-	margin: 5px;
+	color: black;
+	opacity: 0.75;
+	font-size: 22px;
 }
 
-:local(.link) {
-	width: 100%;
-	height: 100%;
+:local(.like:hover) {
+	opacity: 1;
+}
+
+:local(.likeselected) {
+	color: #00cccc;
+	opacity: 1;
+}
+
+:local(.likeCount) {
+	color: black;
+	font-size: 20px;
 }
 
 :local(.description) {
@@ -44,4 +62,5 @@
 :local(.textDescription) {
 	word-wrap: break-word;
 	font-size: 1.6em;
+	overflow: hidden;
 }

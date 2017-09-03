@@ -23,3 +23,9 @@
 	display: column;
 	justify-content: space-between;
 }
+
+.navbarContainer {
+	position: fixed;
+	top: 0;
+	width: 100%;
+}

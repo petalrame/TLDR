@@ -1,4 +1,4 @@
-:local(.home) {
+:local(.page) {
 	display: flex;
 	flex-direction: column;
 	background-color: rgb(241, 239, 115);
@@ -6,4 +6,8 @@
 	margin: 30px;
 	border: .2em solid rgb(209, 206, 35);
 	border-radius: 10px;
+}
+
+:local(.link) {
+	text-decoration: none !important;
 }

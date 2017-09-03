@@ -4,6 +4,7 @@ from rest_framework.test import APIClient
 
 import datetime
 import logging
+import random
 
 from .models import Event
 from .serializers import EventSerializer
@@ -44,6 +45,7 @@ class UserInteractionsTestCase(TestCase):
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
 		self.assertEqual(response.data, serializer.data)
 		
 	def test_most_viewed(self):	
@@ -58,6 +60,7 @@ class UserInteractionsTestCase(TestCase):
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
 		self.assertEqual(response.data, serializer.data)
 
 	def test_get_content_by_tag_name(self):
@@ -73,6 +76,7 @@ class UserInteractionsTestCase(TestCase):
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
 		self.assertEqual(response.data, serializer.data)
 
 		#economy tag
@@ -84,6 +88,7 @@ class UserInteractionsTestCase(TestCase):
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
 		self.assertEqual(response.data, serializer.data)
 
 		#tech tag
@@ -95,6 +100,7 @@ class UserInteractionsTestCase(TestCase):
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
 		self.assertEqual(response.data, serializer.data)
 
 		#Sports tag
@@ -106,6 +112,7 @@ class UserInteractionsTestCase(TestCase):
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
 		self.assertEqual(response.data, serializer.data)
 
 		#fashion tag
@@ -117,6 +124,7 @@ class UserInteractionsTestCase(TestCase):
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
 		self.assertEqual(response.data, serializer.data)
 
 		#crime tag
@@ -128,6 +136,7 @@ class UserInteractionsTestCase(TestCase):
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
 		self.assertEqual(response.data, serializer.data)
 
 		#health tag
@@ -139,26 +148,49 @@ class UserInteractionsTestCase(TestCase):
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
 		self.assertEqual(response.data, serializer.data)
 
 	def test_send_like_or_dislike(self):
 		client = APIClient()
 		logger = logging.getLogger(__name__)
 
-		previousLikeStatus = Event.objects.get(id=43).ranking	#ranking before request
+		random_idx = random.randint(0, Event.objects.count() - 1)
+		random_obj_id = Event.objects.all()[random_idx].id
 
-		response = self.client.post('/api/43/like/', {'likestatus': 1})
+		previousLikeStatus = Event.objects.get(id=random_obj_id).ranking	#ranking before request
 
-		currentLikeStatus = Event.objects.get(id=43).ranking	#ranking after request
+		response = self.client.post('/api/' + str(random_obj_id) + '/like/', {'likestatus': 1})
+
+		currentLikeStatus = Event.objects.get(id=random_obj_id).ranking	#ranking after request
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
 		self.assertEqual(currentLikeStatus, previousLikeStatus + 1)
 
-		previousLikeStatus = Event.objects.get(id=43).ranking	#ranking before request
+		previousLikeStatus = Event.objects.get(id=random_obj_id).ranking	#ranking before request
 
-		response = self.client.post('/api/43/like/', {'likestatus': -1})
+		response = self.client.post('/api/' + str(random_obj_id) + '/like/', {'likestatus': -1})
 
-		currentLikeStatus = Event.objects.get(id=43).ranking	#ranking after request
+		currentLikeStatus = Event.objects.get(id=random_obj_id).ranking	#ranking after request
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
 		self.assertEqual(currentLikeStatus, previousLikeStatus - 1)
+
+	def test_get_entry(self):
+		client = APIClient()
+		logger = logging.getLogger(__name__)
+		
+		random_idx = random.randint(0, Event.objects.count() - 1)
+		random_obj_id = Event.objects.all()[random_idx].id
+
+		response = self.client.get('/api/' + str(random_obj_id) + '/get_entry/')
+		if (response.status_code == 404):
+			logger.warning(response)
+
+		data = Event.objects.get(id=random_obj_id)
+		serializer = EventSerializer(data)
+
+		self.assertEqual(response.status_code, status.HTTP_200_OK)
+		self.assertEqual(response.content_type, 'json')
+		self.assertEqual(response.data, serializer.data)
+

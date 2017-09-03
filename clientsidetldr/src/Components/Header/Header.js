@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import "./Header.css";
 
 const Links = () => 
-	<div>
+	<div className="navbarContainer">
 		<nav className="navbar navbar-default">
 			<div className="container-fluid">
 				<div className="navbar-header">

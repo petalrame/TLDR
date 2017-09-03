@@ -1,0 +1,27 @@
+:local(.infosortbtn) {
+	margin: 5px;
+	border: .01em solid #c0c0c0;
+	border-radius: 4px;
+	padding: 6px;
+	background: #8c8c8c;
+	font-weight: 500;
+	font-family: arial, helvetica;
+	color: #f2f2f2;
+}
+
+:local(.infosortbtn:hover) {
+	cursor: pointer;
+}
+
+:local(.infosortbtn:active) {
+	box-shadow: 0px 1px 5px black;
+}
+
+:local(.selected) {
+	outline: .02em solid #0080ff;
+}
+
+:local(.sortbtnContainer) {
+	margin: 10px;
+	margin-left: 40px;
+}

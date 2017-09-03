@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import styles from "./Article.css";
 
 import catPic from "../images/cat4.png";
@@ -13,41 +14,104 @@ class Article extends Component {
 		super();
 		this.state = {
 			pageContent: [],
+			upselected: false,
+			downselected: false,
+			likeCount: 0
 		}
 	}
 	componentDidMount() {
 		console.log(location.href);
 		let self = this;
-		fetch("http://localhost:3000/entries/" + this.props.match.params.number).then(function(response) {
+		fetch("api/" + this.props.match.params.number + "/get_entry/").then(function(response) {
 			var contentType = response.headers.get("content-type");
-			if (contentType && contentType.includes("application/json")) {
+			if (contentType && contentType.includes("json")) {
 				return response.json();
 			}
 			throw new TypeError("Error: Didn't receive JSON");
 		}).then(function(json) {
 			console.log(json);
 			self.setState({
-				pageContent: json
+				pageContent: json,
+				likeCount: json.ranking
 			});
 			console.log(self.state.pageContent)
 		}).catch(function(error) {
 			console.log(error);
 		});
 
+		(function(d, s, id) {	//for facebook share button
+  			var js, fjs = d.getElementsByTagName(s)[0];
+  			if (d.getElementById(id)) return;
+  			js = d.createElement(s); js.id = id;
+  			js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+  			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+
+		window.twttr = (function(d, s, id) {	//for twitter share button
+			var js, fjs = d.getElementsByTagName(s)[0],
+			t = window.twttr || {};
+  			if (d.getElementById(id)) return t;
+  			js = d.createElement(s);
+			js.id = id;
+			js.src = "https://platform.twitter.com/widgets.js";
+			fjs.parentNode.insertBefore(js, fjs);
+
+			t._e = [];
+			t.ready = function(f) {
+				t._e.push(f);
+			};
+
+			return t;
+		}(document, "script", "twitter-wjs"));
 	}
-	twitterShare() {
-		//share page on twitter, Popup in middle of screen
-		var w = 800;
-		var h = 600;
-		var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
-    		var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+	likeButtonClicked(buttonNumb) {
+		let previousLikeState = this.state.likeCount;	//like Count before update
 
-    		var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    		var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+		if (buttonNumb == 1) {
+			//up button was clicked
+			if (!this.state.upselected) {
+				if (this.state.downselected) {
+					this.setState({
+						upselected: true,
+						downselected: false,
+						likeCount: this.state.likeCount + 2
+					});
+				} else {
+					this.setState({
+						upselected: true,
+						downselected: false,
+						likeCount: this.state.likeCount + 1
+					});
+				}
+			}
+		} else {
+			//down button was clicked
+			if (!this.state.downselected) {
+				if (this.state.upselected) {
+					this.setState({
+						upselected: false,
+						downselected: true,
+						likeCount: this.state.likeCount - 2
+					});
 
-    		var left = ((width / 2) - (w / 2)) + dualScreenLeft;
-    		var top = ((height / 2) - (h / 2)) + dualScreenTop;
-    		var newWindow = window.open("https://twitter.com/share", "Twitter Share", 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+				} else {
+					this.setState({
+						upselected: false,
+						downselected: true,
+						likeCount: this.state.likeCount - 1
+					});
+				}
+			}
+		}
+
+		axios({
+			method: "post",
+			url: "/api/" + this.state.idVal + "/like/",
+			data: {
+				likestatus: this.state.likeCount - previousLikeState 
+			},
+			xsrfHeaderName: "X-CSRFToken",
+		});
 	}
 	render() {
 		console.log(this.props.match.params.number);
@@ -63,15 +127,17 @@ class Article extends Component {
 						
 						<div className={styles.socialMediaBox}>
 							<div className="fb-share-button" data-href={location.href} data-layout="button_count" data-size="large" data-mobile-iframe="false"><a className="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
-							<img className={styles.logo} src={twitter_logo} onClick={this.twitterShare}></img>
+							<a className="twitter-share-button" href="https://twitter.com/intent/tweet">Tweet</a>
 						</div>
 
 						<div className={styles.likeBoxContainer}>
 							<div className={styles.likeBox}>
-								<span className={"glyphicon glyphicon-chevron-up " + styles.like}></span>
-								<span className={"glyphicon glyphicon-chevron-down " + styles.like}></span>
+								<span className={"glyphicon glyphicon-chevron-up " + styles.like + " " + (this.state.upselected ? styles.likeselected:'')}
+									onClick={() => this.likeButtonClicked(1)}></span>
+								<span className={"glyphicon glyphicon-chevron-down " + styles.like + " " + (this.state.downselected ? styles.likeselected:'')}
+									onClick={() => this.likeButtonClicked(2)}></span>
 							</div>
-							<h3 className={styles.likeCount}>0</h3>
+							<h3 className={styles.likeCount}>{this.state.likeCount}</h3>
 						</div>
 					</div>
 				</div>
@@ -80,7 +146,6 @@ class Article extends Component {
 				<div className={styles.wordContent}>
 					<p>{this.state.pageContent.summary}</p>
 				</div>
-				<Comments />
 			</div>
 		);
 	}

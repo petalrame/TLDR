@@ -77,9 +77,11 @@ WSGI_APPLICATION = 'tldr.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'article_database',
-	'USER': 'samwasserman',
-	'PASSWORD': '#Dowhile97',
+        'NAME': 'tldr',
+	'USER': 'tldrviewer',
+	'PASSWORD': 'Ram965',
+	'HOST': 'localhost',
+	'PORT': '',
     },
 
     #'cassandra': {

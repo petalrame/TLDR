@@ -65,7 +65,7 @@ class Article extends Component {
 		}(document, "script", "twitter-wjs"));
 	}
 	likeButtonClicked(buttonNumb) {
-		let previousLikeState = this.state.likeCount;	//like Count before update
+		var likeStatusChange = 0
 
 		if (buttonNumb == 1) {
 			//up button was clicked
@@ -76,12 +76,14 @@ class Article extends Component {
 						downselected: false,
 						likeCount: this.state.likeCount + 2
 					});
+					likeStatusChange = 2
 				} else {
 					this.setState({
 						upselected: true,
 						downselected: false,
 						likeCount: this.state.likeCount + 1
 					});
+					likeStatusChange = 1
 				}
 			}
 		} else {
@@ -93,6 +95,7 @@ class Article extends Component {
 						downselected: true,
 						likeCount: this.state.likeCount - 2
 					});
+					likeStatusChange = -2
 
 				} else {
 					this.setState({
@@ -100,17 +103,20 @@ class Article extends Component {
 						downselected: true,
 						likeCount: this.state.likeCount - 1
 					});
+					likeStatusChange = -1
 				}
 			}
 		}
 
+		axios.defaults.xsrfCookieName = 'csrftoken'
+		axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+		
 		axios({
 			method: "post",
-			url: "/api/" + this.state.idVal + "/like/",
+			url: "/api/" +  this.props.match.params.number + "/like/",
 			data: {
-				likestatus: this.state.likeCount - previousLikeState 
+				likestatus: likeStatusChange 
 			},
-			xsrfHeaderName: "X-CSRFToken",
 		});
 	}
 	render() {

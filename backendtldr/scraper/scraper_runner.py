@@ -6,6 +6,10 @@ import time
 TIME_INTERVAL = 216000
 
 if __name__ == "__main__":
+    main
+
+
+def main():
     while True:
         scrape.run_scraper()
         time.sleep(TIME_INTERVAL)

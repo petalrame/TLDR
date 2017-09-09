@@ -1,6 +1,6 @@
 """Scrape data (urls, authors, content, titles) from articles."""
 import newspaper
-from models import article
+from scraper.models import article
 from django.utils import timezone
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
@@ -25,11 +25,14 @@ def get_source_list():
 def scrape(sources):
     """Scrape the source article."""
     for source in sources:
-        for article in source.articles:
-            article.download()
-            article.parse()
-            a = article(title = ''.join(article.title), authors = ''.join(article.authors), content = ''.join(article.text),date = timezone.now())
-            a.save()
+        for news_article in source.articles:
+            news_article.download()
+            news_article.parse()
+            try:
+                a = article(title = ''.join(news_article.title), authors = ''.join(news_article.authors[0]), content = ''.join(news_article.text),date = timezone.now())
+                a.save()
+            except:
+                print("error")
 
 
 def display_data():

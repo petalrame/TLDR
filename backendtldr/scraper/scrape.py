@@ -11,13 +11,13 @@ def get_source_list():
     """Build newspaper objects for scraping. Returns a list."""
     # Build Papers Objects to be downloaded and parsed for data extraction.
     tech_crunch = newspaper.build(
-        'https://www.techcrunch.com/', memoize_articles=False)
-    fox = newspaper.build('https://www.foxnews.com/', memoize_articles=True)
-    nytimes = newspaper.build('http://nytimes.com', memoize_articles=True)
-    wsj = newspaper.build('http://wsj.com', memoize_articles=True)
-    bbc = newspaper.build('http://bbcnews.com', memoize_articles=True)
-    cnn = newspaper.build('http://cnn.com', memoize_articles=True)
-    breit = newspaper.build('http://breitbart.com', memoize_articles=True)
+        'https://www.techcrunch.com/', memoize_articles=False, language='en')
+    fox = newspaper.build('https://www.foxnews.com/', memoize_articles=True, language='en')
+    nytimes = newspaper.build('http://nytimes.com', memoize_articles=True, language='en')
+    wsj = newspaper.build('http://wsj.com', memoize_articles=True, language='en')
+    bbc = newspaper.build('http://bbcnews.com', memoize_articles=True, language='en')
+    cnn = newspaper.build('http://cnn.com', memoize_articles=True, language='en')
+    breit = newspaper.build('http://breitbart.com', memoize_articles=True, language='en')
     papers = [tech_crunch, fox, nytimes, wsj, bbc, cnn, breit]
     return papers
 
@@ -28,11 +28,13 @@ def scrape(sources):
         for news_article in source.articles:
             news_article.download()
             news_article.parse()
-            try:
-                a = article(title = ''.join(news_article.title), authors = ''.join(news_article.authors[0]), content = ''.join(news_article.text),date = timezone.now())
-                a.save()
-            except:
-                print("error")
+            title = ''.join(news_article.title)
+            content = ''.join(news_article.text)
+            date = timezone.now()
+            print(content)
+            #authors = ''.join(news_article.authors[0])
+            #a = article(title = ''.join(news_article.title),authors = "Test" , content = ''.join(news_article.text),date = timezone.now())
+            #a.save()
 
 
 def display_data():

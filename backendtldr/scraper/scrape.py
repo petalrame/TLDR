@@ -26,15 +26,23 @@ def scrape(sources):
     """Scrape the source article."""
     for source in sources:
         for news_article in source.articles:
-            news_article.download()
-            news_article.parse()
+            try:
+                news_article.download()
+                news_article.parse()
+            except:
+                break
             title = ''.join(news_article.title)
             content = ''.join(news_article.text)
             date = timezone.now()
-            print(content)
-            #authors = ''.join(news_article.authors[0])
-            #a = article(title = ''.join(news_article.title),authors = "Test" , content = ''.join(news_article.text),date = timezone.now())
-            #a.save()
+            authors = ''
+            try:
+                for author in news_article.authors:
+                    authors = author + ', ' + authors
+                print(authors)
+            except:
+                print("")
+            a = article(title = title,authors = authors ,content = content,date = date)
+            a.save()
 
 
 def display_data():

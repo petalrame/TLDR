@@ -75,7 +75,15 @@ WSGI_APPLICATION = 'tldr.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+ 'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tldr',
+	'USER': 'tldrviewer',
+	'PASSWORD': 'Ram965',
+	'HOST': 'localhost',
+	'PORT': '',
+    },
+    'articles': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'article_database',
 	'USER': 'samwasserman',

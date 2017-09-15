@@ -47,13 +47,11 @@ def scrape(sources):
                     authors = author + ', ' + authors
             except:
                 print("")
-<<<<<<< Updated upstream
             print(content)
-            a = article(title = title,authors = authors ,content = content,url = url,date = date)
-=======
+            a = article(title=title, authors=authors, content=content,
+                        url=url, date=date)
             a = article(
                     title=title, authors=authors, content=content, date=date)
->>>>>>> Stashed changes
             a.save()
 
 

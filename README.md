@@ -1,7 +1,7 @@
 # TLDR
-TLDR Django Web Framework[containerized]
+## TLDR Django Web Framework[containerized]
 
-Docker instructions:
+### Docker instructions:
 
 Use command: 'docker-compose up' to start container/server(Sudo may be required)
 

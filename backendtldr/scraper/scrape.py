@@ -1,9 +1,5 @@
 """Scrape data (urls, authors, content, titles) from articles."""
 import newspaper
-<<<<<<< Updated upstream
-from scraper.models import article
-=======
->>>>>>> Stashed changes
 from django.utils import timezone
 from scraper.models import article
 # List of article dictionaries.

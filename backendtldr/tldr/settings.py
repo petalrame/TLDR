@@ -31,10 +31,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'scraper.apps.ScraperConfig',
 	'contentViewer',
-<<<<<<< Updated upstream
-=======
-	'scraper.apps.ScraperConfig',
->>>>>>> Stashed changes
 	'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',

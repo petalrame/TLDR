@@ -35,13 +35,14 @@ def scrape(sources):
             content = ''.join(news_article.text)
             date = timezone.now()
             authors = ''
+            url = ''.join(source.url)
             try:
                 for author in news_article.authors:
                     authors = author + ', ' + authors
-                print(authors)
             except:
                 print("")
-            a = article(title = title,authors = authors ,content = content,date = date)
+            print(content)
+            a = article(title = title,authors = authors ,content = content,url = url,date = date)
             a.save()
 
 

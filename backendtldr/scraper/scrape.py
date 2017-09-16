@@ -31,20 +31,35 @@ def scrape(sources):
                 news_article.parse()
             except:
                 break
-            title = ''.join(news_article.title)
+            if news_article.title is not None:
+                title = ''.join(news_article.title)
+            else:
+                continue
             content = ''.join(news_article.text)
             date = timezone.now()
-            authors = ''
-            url = ''.join(source.url)
+            authors = ""
+            url = ''.join(news_article.url)
             try:
                 for author in news_article.authors:
-                    authors = author + ', ' + authors
+                    authors = format_author(author) + ', ' + authors
             except:
                 print("")
-            print(content)
+            print("article scraped")
             a = article(title = title,authors = authors ,content = content,url = url,date = date)
             a.save()
 
+
+def format_author(author):
+    formatted_author = author
+    if "Hour Ago" in author:
+        formatted_author = formatted_author.replace("Hour Ago","")
+    if "Hours Ago" in author:
+        formatted_author = formatted_author.replace("Hours Ago","")
+    if "Minutes Ago" in author:
+        formatted_author = formatted_author.replace("Minutes Ago","")
+    if "Seconds Ago" in author:
+        formatted_author = formatted_author.replace("Seconds Ago", "")
+    return formatted_author
 
 def display_data():
     """Output the scraper results to console."""

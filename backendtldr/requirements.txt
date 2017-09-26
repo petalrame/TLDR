@@ -1,5 +1,4 @@
 Django==1.10.4
 psycopg2==2.7.1
-django-cassandra-engine==1.0.2
 PyReact==0.6.0
 djangorestframework

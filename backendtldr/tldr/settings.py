@@ -30,8 +30,13 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'scraper.apps.ScraperConfig',
+<<<<<<< HEAD
     'contentViewer',
     'rest_framework',
+=======
+	'contentViewer',
+	'rest_framework',
+>>>>>>> b932075bb2a1df21df3762523fc16d586a706053
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

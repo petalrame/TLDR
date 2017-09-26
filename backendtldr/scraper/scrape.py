@@ -1,9 +1,6 @@
 """Scrape data (urls, authors, content, titles) from articles."""
 import newspaper
-<<<<<<< HEAD
 from scraper.models import article
-=======
->>>>>>> b932075bb2a1df21df3762523fc16d586a706053
 from django.utils import timezone
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added

@@ -30,8 +30,10 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'scraper.apps.ScraperConfig',
-	'contentViewer',
-	'rest_framework',
+    'summarize.app.SummarizeConfig',
+    'contentViewer',
+    'rest_framework',
+    'tagulous',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+SERIALIZATION_MODULES = {
+    'xml':    'tagulous.serializers.xml_serializer',
+    'json':   'tagulous.serializers.json',
+    'python': 'tagulous.serializers.python',
+    'yaml':   'tagulous.serializers.pyyaml',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,30 +87,17 @@ DATABASES = {
  'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tldr',
-	'USER': 'tldrviewer',
-	'PASSWORD': 'Ram965',
-	'HOST': 'localhost',
-	'PORT': '',
+        'USER': 'tldrviewer',
+        'PASSWORD': 'Ram965',
+        'HOST': 'localhost',
+        'PORT': '',
     },
-    'articles': {
+ 'articles': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'article_database',
-	'USER': 'samwasserman',
-	'PASSWORD': '#Dowhile97',
+        'USER': 'samwasserman',
+        'PASSWORD': '#Dowhile97',
     },
-
-    #'cassandra': {
-    #    'ENGINE': 'django_cassandra_engine',
-    #    'NAME': 'djangoCassandraDB',
-    #	'TEST_NAME': 'test_djangoCassandraDB',
-    #	'HOST': '',
-#	'OPTIONS': {
-#		'replication': {
-#			'strategy_class': 'SimpleStrategy',
-#			'replication_factor': 1
-#		}
-#	}
-#    }
 }
 
 

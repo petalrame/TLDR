@@ -1,7 +1,7 @@
 """Scrape data (urls, authors, content, titles) from articles."""
 import newspaper
-from django.utils import timezone
 from scraper.models import article
+from django.utils import timezone
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
 article_list = []
@@ -12,12 +12,18 @@ def get_source_list():
     # Build Papers Objects to be downloaded and parsed for data extraction.
     tech_crunch = newspaper.build(
         'https://www.techcrunch.com/', memoize_articles=False, language='en')
-    fox = newspaper.build('https://www.foxnews.com/', memoize_articles=True, language='en')
-    nytimes = newspaper.build('http://nytimes.com', memoize_articles=True, language='en')
-    wsj = newspaper.build('http://wsj.com', memoize_articles=True, language='en')
-    bbc = newspaper.build('http://bbcnews.com', memoize_articles=True, language='en')
-    cnn = newspaper.build('http://cnn.com', memoize_articles=True, language='en')
-    breit = newspaper.build('http://breitbart.com', memoize_articles=True, language='en')
+    fox = newspaper.build(
+        'https://www.foxnews.com/', memoize_articles=True, language='en')
+    nytimes = newspaper.build(
+        'http://nytimes.com', memoize_articles=True, language='en')
+    wsj = newspaper.build(
+        'http://wsj.com', memoize_articles=True, language='en')
+    bbc = newspaper.build(
+        'http://bbcnews.com', memoize_articles=True, language='en')
+    cnn = newspaper.build(
+        'http://cnn.com', memoize_articles=True, language='en')
+    breit = newspaper.build(
+        'http://breitbart.com', memoize_articles=True, language='en')
     papers = [tech_crunch, fox, nytimes, wsj, bbc, cnn, breit]
     return papers
 
@@ -44,8 +50,16 @@ def scrape(sources):
                     authors = format_author(author) + ', ' + authors
             except:
                 print("")
+<<<<<<< HEAD
+            print(content)
+            a = article(title=title, authors=authors, content=content,
+                        url=url, date=date)
+            a = article(
+                    title=title, authors=authors, content=content, date=date)
+=======
             print("article scraped")
             a = article(title = title,authors = authors ,content = content,url = url,date = date)
+>>>>>>> b932075bb2a1df21df3762523fc16d586a706053
             a.save()
 
 

@@ -1,6 +1,6 @@
 """Scrape data (urls, authors, content, titles) from articles."""
 import newspaper
-from scraper.models import article
+from scraper.models import Article
 from django.utils import timezone
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
@@ -50,16 +50,8 @@ def scrape(sources):
                     authors = format_author(author) + ', ' + authors
             except:
                 print("")
-<<<<<<< HEAD
-            print(content)
-            a = article(title=title, authors=authors, content=content,
-                        url=url, date=date)
-            a = article(
-                    title=title, authors=authors, content=content, date=date)
-=======
             print("article scraped")
-            a = article(title = title,authors = authors ,content = content,url = url,date = date)
->>>>>>> b932075bb2a1df21df3762523fc16d586a706053
+            a = Article(title = title,authors = authors ,content = content,url = url,date = date)
             a.save()
 
 

@@ -7,7 +7,6 @@ class Event(models.Model):
     event_title = models.CharField(max_length=500)
     summaries = models.CharField(max_length=40000)
     articles = models.ManyToManyField("scraper.Article",
-                                      verbose_name="articles",
                                       related_name="events")
     no_tags = models.IntegerField(default=100)
     tags = TagField()

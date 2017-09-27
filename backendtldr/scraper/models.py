@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 from django.db import models
-from summarize.models import Event
 
 
 class Article(models.Model):
@@ -9,7 +8,8 @@ class Article(models.Model):
     content = models.CharField(max_length=5000)
     url = models.CharField(max_length=300)
     date = models.DateTimeField('date')
-    event_id = models.ManyToManyField(Event)
+    event_id = models.ManyToManyField('summarize.Event',
+                                      related_name='article')
 
     class Meta():
         app_label = 'scraper'

@@ -50,30 +50,29 @@ def scrape(sources):
                     authors = format_author(author) + ', ' + authors
             except:
                 print("")
-<<<<<<< HEAD
             print(content)
             a = article(title=title, authors=authors, content=content,
                         url=url, date=date)
             a = article(
                     title=title, authors=authors, content=content, date=date)
-=======
             print("article scraped")
-            a = article(title = title,authors = authors ,content = content,url = url,date = date)
->>>>>>> b932075bb2a1df21df3762523fc16d586a706053
+            a = article(title=title, authors=authors, content=content,
+                        url=url, date=date)
             a.save()
 
 
 def format_author(author):
     formatted_author = author
     if "Hour Ago" in author:
-        formatted_author = formatted_author.replace("Hour Ago","")
+        formatted_author = formatted_author.replace("Hour Ago", "")
     if "Hours Ago" in author:
-        formatted_author = formatted_author.replace("Hours Ago","")
+        formatted_author = formatted_author.replace("Hours Ago", "")
     if "Minutes Ago" in author:
-        formatted_author = formatted_author.replace("Minutes Ago","")
+        formatted_author = formatted_author.replace("Minutes Ago", "")
     if "Seconds Ago" in author:
         formatted_author = formatted_author.replace("Seconds Ago", "")
     return formatted_author
+
 
 def display_data():
     """Output the scraper results to console."""

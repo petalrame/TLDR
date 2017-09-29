@@ -1,1 +1,2 @@
 django-tagulous==0.12.0
+nltk==3.2.4

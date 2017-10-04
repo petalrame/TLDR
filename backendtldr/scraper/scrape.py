@@ -51,7 +51,7 @@ def scrape(sources):
             except:
                 print("")
             print("article scraped")
-            a = Article(title = title,authors = authors ,content = content,url = url,date = date)
+            a = Article(title = title,authors = authors ,content = content,url = url,date = date, event_id = None)
             a.save()
 
 

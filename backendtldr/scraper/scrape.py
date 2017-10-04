@@ -58,14 +58,15 @@ def scrape(sources):
 def format_author(author):
     formatted_author = author
     if "Hour Ago" in author:
-        formatted_author = formatted_author.replace("Hour Ago","")
+        formatted_author = formatted_author.replace("Hour Ago", "")
     if "Hours Ago" in author:
-        formatted_author = formatted_author.replace("Hours Ago","")
+        formatted_author = formatted_author.replace("Hours Ago", "")
     if "Minutes Ago" in author:
-        formatted_author = formatted_author.replace("Minutes Ago","")
+        formatted_author = formatted_author.replace("Minutes Ago", "")
     if "Seconds Ago" in author:
         formatted_author = formatted_author.replace("Seconds Ago", "")
     return formatted_author
+
 
 def display_data():
     """Output the scraper results to console."""

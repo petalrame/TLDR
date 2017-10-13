@@ -50,8 +50,18 @@ def scrape(sources):
                     authors = format_author(author) + ', ' + authors
             except:
                 print("")
-            print("article scraped")
-            a = Article(title = title,authors = authors ,content = content,url = url,date = date, event_id = None)
+
+            # Call newspaper NLP...This call is very expensive,
+            # and will be replaced by a better tagging implementation
+            news_article.nlp()
+
+            # fetch "tags"
+            tags = news_article.keywords
+
+            a = Article(title = title,authors = authors ,content = content,url = url,date = date, event_id = None,
+                        tags = tags)
+
+            # save the article to the database
             a.save()
 
 

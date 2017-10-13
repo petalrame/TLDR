@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
+from tagulous.models import TagField
 
 
 class Article(models.Model):
@@ -10,6 +11,8 @@ class Article(models.Model):
     date = models.DateTimeField('date')
     event_id = models.ManyToManyField('summarize.Event',
                                       related_name='article')
+    tags = TagField()
+
 
     class Meta():
         app_label = 'scraper'

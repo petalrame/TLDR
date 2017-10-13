@@ -13,7 +13,7 @@ def generate_events_from_articles():
     for article in Article.objects.all():
         # Create an event object with attributes from the article
         e = Event(event_title = article.title, summaries = None,  articles = article, no_tags = None,
-                  tags = None, last_updated = timezone.now(), needs_summary = True)
+                  tags = article.tags, last_updated = timezone.now(), needs_summary = True)
         # Save the data to the database
         e.save()
         # Set the event_id of the article to the event it was just created from

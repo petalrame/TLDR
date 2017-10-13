@@ -8,7 +8,7 @@ TIME_INTERVAL = 216000
 if __name__ == "__main__":
     main
 
-@shared_task
+
 def main():
     while True:
         scrape.run_scraper()

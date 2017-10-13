@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'scraper.apps.ScraperConfig',
-    'summarize.app.SummarizeConfig',
+    'summarize.apps.SummarizeConfig',
     'contentViewer',
     'rest_framework',
     'tagulous',

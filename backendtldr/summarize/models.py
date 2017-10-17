@@ -1,5 +1,4 @@
 from django.db import models
-import tagulous
 from tagulous.models import TagField
 
 

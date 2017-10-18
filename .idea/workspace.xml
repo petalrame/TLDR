@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="82370e12-3407-44fe-b53b-b3ea8bfd972b" name="Default" comment="" />
+=======
     <list default="true" id="82370e12-3407-44fe-b53b-b3ea8bfd972b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backendtldr/scraper/models.py" afterPath="$PROJECT_DIR$/backendtldr/scraper/models.py" />
     </list>
+>>>>>>> 3e9261dacc98a585ecc2f4f02a889d4aabcca786
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,6 +47,11 @@
       <file leaf-file-name="scraper_runner.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backendtldr/scraper/scraper_runner.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="210">
+              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
+=======
             <state relative-caret-position="0">
               <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
               <folding>
@@ -72,6 +81,7 @@
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
+>>>>>>> 3e9261dacc98a585ecc2f4f02a889d4aabcca786
             </state>
           </provider>
         </entry>
@@ -91,7 +101,11 @@
       <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backendtldr/celery/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="90">
+=======
             <state relative-caret-position="30">
+>>>>>>> 3e9261dacc98a585ecc2f4f02a889d4aabcca786
               <caret line="6" column="24" lean-forward="false" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
               <folding>
                 <element signature="e#0#56#0" expanded="true" />
@@ -124,10 +138,13 @@
         <option value="$PROJECT_DIR$/backendtldr/tldr/settings.py" />
         <option value="$PROJECT_DIR$/backendtldr/scraper/scrape.py" />
         <option value="$PROJECT_DIR$/backendtldr/celery/__init__.py" />
-        <option value="$PROJECT_DIR$/backendtldr/scraper/scraper_runner.py" />
         <option value="$PROJECT_DIR$/backendtldr/scraper/tasks.py" />
         <option value="$PROJECT_DIR$/backendtldr/celery/celery.py" />
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/backendtldr/scraper/scraper_runner.py" />
+=======
         <option value="$PROJECT_DIR$/backendtldr/scraper/models.py" />
+>>>>>>> 3e9261dacc98a585ecc2f4f02a889d4aabcca786
       </list>
     </option>
   </component>
@@ -282,7 +299,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1012" height="1052" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3616601" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -570,7 +586,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backendtldr/celery/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="90">
+=======
         <state relative-caret-position="30">
+>>>>>>> 3e9261dacc98a585ecc2f4f02a889d4aabcca786
           <caret line="6" column="24" lean-forward="false" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
           <folding>
             <element signature="e#0#56#0" expanded="true" />
@@ -610,11 +630,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backendtldr/scraper/scraper_runner.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="210">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+=======
         <state relative-caret-position="0">
           <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
           <folding>
             <element signature="e#58#71#0" expanded="true" />
           </folding>
+>>>>>>> 3e9261dacc98a585ecc2f4f02a889d4aabcca786
         </state>
       </provider>
     </entry>

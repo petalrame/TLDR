@@ -1,6 +1,8 @@
 """Scrape data (urls, authors, content, titles) from articles."""
+import sys
+sys.path.append("newspaper-0.1.0.7")
 import newspaper
-from scraper.models import article
+from scraper.models import Article
 from django.utils import timezone
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
@@ -13,7 +15,7 @@ def get_source_list():
     tech_crunch = newspaper.build(
         'https://www.techcrunch.com/', memoize_articles=False, language='en')
     fox = newspaper.build(
-        'https://www.foxnews.com/', memoize_articles=True, language='en')
+        'https://www.foxnews.com/', memoize_articles=False, language='en')
     nytimes = newspaper.build(
         'http://nytimes.com', memoize_articles=True, language='en')
     wsj = newspaper.build(
@@ -24,7 +26,7 @@ def get_source_list():
         'http://cnn.com', memoize_articles=True, language='en')
     breit = newspaper.build(
         'http://breitbart.com', memoize_articles=True, language='en')
-    papers = [tech_crunch, fox, nytimes, wsj, bbc, cnn, breit]
+    papers = [fox, nytimes, wsj, bbc, cnn, breit]
     return papers
 
 
@@ -35,8 +37,9 @@ def scrape(sources):
             try:
                 news_article.download()
                 news_article.parse()
+                news_article.nlp()
             except:
-                break
+                continue
             if news_article.title is not None:
                 title = ''.join(news_article.title)
             else:
@@ -49,16 +52,19 @@ def scrape(sources):
                 for author in news_article.authors:
                     authors = format_author(author) + ', ' + authors
             except:
-                print("")
-            print(content)
-            a = article(title=title, authors=authors, content=content,
-                        url=url, date=date)
-            a = article(
-                    title=title, authors=authors, content=content, date=date)
-            print("article scraped")
-            a = article(title=title, authors=authors, content=content,
-                        url=url, date=date)
-            a.save()
+                continue
+            # Call newspaper NLP...This call is very expensive,
+            # and will be replaced by a better tagging implementation
+            # fetch "tags"
+            tags = news_article.keywords
+            a = Article(title = title,authors = authors ,content = content,url = url,date = date, tags=tags)
+
+            # save the article to the database
+            try:
+                a.save()
+                print("Article stored")
+            except:
+                print("There was a problem saving to db")
 
 
 def format_author(author):

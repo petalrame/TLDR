@@ -92,14 +92,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '',
     },
- 'articles': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'article_database',
-        'USER': 'samwasserman',
-        'PASSWORD': '#Dowhile97',
-    },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

@@ -21,16 +21,16 @@ class HomePage extends Component {
 		let self = this;
 		
 		if (numb == 1) {
-			console.log("Top Rated");
+			var contentOrder = "most_popular"
 		}
 		else if (numb == 2) {
-			console.log("Most Viewed");
+			var contentOrder = "most_viewed"
 		}
 		else if (numb == 3) {
-			console.log("Most Recent");
+			var contentOrder = "most_recent"
 		}
 
-		fetch("/api/most_viewed/").then(function(response) {
+		fetch("/api/" + contentOrder + "/").then(function(response) {
 			var contentType = response.headers.get("content-type");
 			if (contentType && contentType.includes("json")) {
 				return response.json();

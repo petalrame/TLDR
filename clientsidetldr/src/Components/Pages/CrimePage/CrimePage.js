@@ -21,18 +21,21 @@ class CrimePage extends Component {
 		let self = this;
 		
 		if (numb == 1) {
+			var order = "1"
 			console.log("Top Rated");
 		}
 		else if (numb == 2) {
+			var order = "2"
 			console.log("Most Viewed");
 		}
 		else if (numb == 3) {
+			var order = "3"
 			console.log("Most Recent");
 		}
 
-		fetch("/api/get_content_by_tag_name?tag=Crime").then(function(response) {
+		fetch("/api/get_content_by_tag_name?tag=Crime&order=" + order).then(function(response) {
 			var contentType = response.headers.get("content-type");
-			if (contentType && contentType.includes("application/json")) {
+			if (contentType && contentType.includes("json")) {
 				return response.json();
 			}
 			throw new TypeError("Error: Didn't receive JSON");

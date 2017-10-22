@@ -1,6 +1,8 @@
 """Scrape data (urls, authors, content, titles) from articles."""
+import sys
+sys.path.append("newspaper-0.1.0.7")
 import newspaper
-from models import article
+from scraper.models import Article
 from django.utils import timezone
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
@@ -11,25 +13,71 @@ def get_source_list():
     """Build newspaper objects for scraping. Returns a list."""
     # Build Papers Objects to be downloaded and parsed for data extraction.
     tech_crunch = newspaper.build(
-        'https://www.techcrunch.com/', memoize_articles=False)
-    fox = newspaper.build('https://www.foxnews.com/', memoize_articles=True)
-    nytimes = newspaper.build('http://nytimes.com', memoize_articles=True)
-    wsj = newspaper.build('http://wsj.com', memoize_articles=True)
-    bbc = newspaper.build('http://bbcnews.com', memoize_articles=True)
-    cnn = newspaper.build('http://cnn.com', memoize_articles=True)
-    breit = newspaper.build('http://breitbart.com', memoize_articles=True)
-    papers = [tech_crunch, fox, nytimes, wsj, bbc, cnn, breit]
+        'https://www.techcrunch.com/', memoize_articles=False, language='en')
+    fox = newspaper.build(
+        'https://www.foxnews.com/', memoize_articles=False, language='en')
+    nytimes = newspaper.build(
+        'http://nytimes.com', memoize_articles=True, language='en')
+    wsj = newspaper.build(
+        'http://wsj.com', memoize_articles=True, language='en')
+    bbc = newspaper.build(
+        'http://bbcnews.com', memoize_articles=True, language='en')
+    cnn = newspaper.build(
+        'http://cnn.com', memoize_articles=True, language='en')
+    breit = newspaper.build(
+        'http://breitbart.com', memoize_articles=True, language='en')
+    papers = [fox, nytimes, wsj, bbc, cnn, breit]
     return papers
 
 
 def scrape(sources):
     """Scrape the source article."""
     for source in sources:
-        for article in source.articles:
-            article.download()
-            article.parse()
-            a = article(title = ''.join(article.title), authors = ''.join(article.authors), content = ''.join(article.text),date = timezone.now())
-            a.save()
+        for news_article in source.articles:
+            try:
+                news_article.download()
+                news_article.parse()
+                news_article.nlp()
+            except:
+                continue
+            if news_article.title is not None:
+                title = ''.join(news_article.title)
+            else:
+                continue
+            content = ''.join(news_article.text)
+            date = timezone.now()
+            authors = ""
+            url = ''.join(news_article.url)
+            try:
+                for author in news_article.authors:
+                    authors = format_author(author) + ', ' + authors
+            except:
+                continue
+            # Call newspaper NLP...This call is very expensive,
+            # and will be replaced by a better tagging implementation
+            # fetch "tags"
+            tags = news_article.keywords
+            a = Article(title = title,authors = authors ,content = content,url = url,date = date, tags=tags)
+
+            # save the article to the database
+            try:
+                a.save()
+                print("Article stored")
+            except:
+                print("There was a problem saving to db")
+
+
+def format_author(author):
+    formatted_author = author
+    if "Hour Ago" in author:
+        formatted_author = formatted_author.replace("Hour Ago", "")
+    if "Hours Ago" in author:
+        formatted_author = formatted_author.replace("Hours Ago", "")
+    if "Minutes Ago" in author:
+        formatted_author = formatted_author.replace("Minutes Ago", "")
+    if "Seconds Ago" in author:
+        formatted_author = formatted_author.replace("Seconds Ago", "")
+    return formatted_author
 
 
 def display_data():

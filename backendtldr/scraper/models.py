@@ -1,11 +1,19 @@
 from __future__ import unicode_literals
-
 from django.db import models
+import tagulous
+import tagulous.models
 
-class article(models.Model):
-    title = models.CharField(max_length=100)
-    authors = models.CharField(max_length=50)
-    content = models.CharField(max_length=2000)
+
+class Article(models.Model):
+    title = models.CharField(max_length=150)
+    authors = models.CharField(max_length=200)
+    content = models.CharField(max_length=90000)
+    url = models.CharField(max_length=300)
     date = models.DateTimeField('date')
+    event_id = models.ManyToManyField('summarize.Event',
+                                      related_name='article', default=None)
+    tags = tagulous.models.TagField()
 
 
+    class Meta():
+        app_label = 'scraper'

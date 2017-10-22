@@ -18,6 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
 	url(r'^admin', admin.site.urls),
-	url(r'^tldr/', include('scraper.urls')),
+    url(r'^summarize/', include('summarize.urls')),
+	url(r'^scraper/', include('scraper.urls')),
 	url(r'^', include('contentViewer.urls')),
 ]

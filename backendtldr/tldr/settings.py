@@ -22,16 +22,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'd4b#tr2_+tc%mu3=y!g8g$2m!et8opth2q4$9i!k_f*08y3zy8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
 # Application definition
 
 INSTALLED_APPS = [
-	'contentViewer',
-	'scraper',
-	'rest_framework',
+    'scraper.apps.ScraperConfig',
+    'summarize.apps.SummarizeConfig',
+    'contentViewer',
+    'rest_framework',
+    'tagulous',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+SERIALIZATION_MODULES = {
+    'xml':    'tagulous.serializers.xml_serializer',
+    'json':   'tagulous.serializers.json',
+    'python': 'tagulous.serializers.python',
+    'yaml':   'tagulous.serializers.pyyaml',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,27 +84,14 @@ WSGI_APPLICATION = 'tldr.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+ 'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'tldr',
-	'USER': 'tldrviewer',
-	'PASSWORD': 'Ram965',
-	'HOST': 'localhost',
-	'PORT': '',
+        'USER': 'tldrviewer',
+        'PASSWORD': 'Ram965',
+        'HOST': 'localhost',
+        'PORT': '',
     },
-
-    #'cassandra': {
-    #    'ENGINE': 'django_cassandra_engine',
-    #    'NAME': 'djangoCassandraDB',
-    #	'TEST_NAME': 'test_djangoCassandraDB',
-    #	'HOST': '',
-#	'OPTIONS': {
-#		'replication': {
-#			'strategy_class': 'SimpleStrategy',
-#			'replication_factor': 1
-#		}
-#	}
-#    }
 }
 
 # Password validation

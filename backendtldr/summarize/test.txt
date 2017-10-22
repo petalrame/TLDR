@@ -1,0 +1,13 @@
+Following its meeting with members of the Senate and House’s respective intelligence committees, Twitter has issued new details on the information it is providing to aid the congressional investigations into Russia’s potential interference in the 2016 U.S. election.
+
+Twitter, like Facebook, is being examined for its part in spreading content created or paid for by Russian state-sponsored entities with the desire to influence U.S. politics.
+
+The meat of Twitter’s new disclosure is its effort to cross-reference Facebook’s list of 470 accounts believed to be linked to the Russian government. Twitter reports that 22 of those Facebook accounts “had corresponding accounts on Twitter.” Twitter removed any of those accounts that it hadn’t already suspended for violations of its terms of service prohibition against spam and also took action against a number of other affiliated accounts that it discovered in the process:
+
+“In addition, from those accounts we found an additional 179 related or linked accounts, and took action on the ones we found in violation of our rules. Neither the original accounts shared by Facebook, nor the additional related accounts we identified, were registered as advertisers on Twitter. However, we continue to investigate these issues, and will take action on anything that violates our Terms of Service.”
+
+Twitter also reported details on Russia Today’s ad budget on the platform. The U.S. intelligence community believes that Russia Today, better known as RT, is affiliated with the Russian government. Still, because Twitter failed to specify how much of RT’s ad spend was related to the U.S. election it’s difficult to infer much of meaning from the information:
+
+“Based on our findings thus far, RT spent $274,100 in U.S. ads in 2016. In that year, the @RT_com, @RT_America, and @ActualidadRT accounts promoted 1,823 Tweets that definitely or potentially targeted the U.S. market. These campaigns were directed at followers of mainstream media and primarily promoted RT Tweets regarding news stories.”
+
+New reports have suggested that Twitter might have been an equal or greater focus for Russian influence campaigns compared to Facebook, which first made headlines around the issue. In its statement, Twitter also reiterated its commitment to cooperating with Congress, though Virginia Senator Mark Warner seems less than impressed with its efforts to date. Twitter is expected to appear along with Facebook and Google before both the House and Senate in hearings on the Russian influence campaign over the course of the next two months.

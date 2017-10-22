@@ -5,7 +5,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 import logging
 
-from .models import Event
+from summarize.models import Event
 from .serializers import EventSerializer
 
 # Create your views here.
@@ -51,11 +51,11 @@ class UserInteractionsViewSet(viewsets.ViewSet):
 		order = int(requestdata['order'])
 
 		if (order == 1):
-			data = Event.objects.filter(tags__contains=[tag]).order_by('-ranking')
+			data = Event.objects.filter(tags=tag).order_by('-ranking')
 		elif (order == 2):
-			data = Event.objects.filter(tags__contains=[tag]).order_by('-clicktraffic')
+			data = Event.objects.filter(tags=tag).order_by('-clicktraffic')
 		elif (order == 3):
-			data = Event.objects.filter(tags__contains=[tag]).order_by('-dateadded')
+			data = Event.objects.filter(tags=tag).order_by('-dateadded')
 
 		serializer = EventSerializer(data, many=True)
 

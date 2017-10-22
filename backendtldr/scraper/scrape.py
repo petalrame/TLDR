@@ -4,6 +4,7 @@ sys.path.append("newspaper-0.1.0.7")
 import newspaper
 from scraper.models import Article
 from django.utils import timezone
+from summarize.event_handler import *	#import event creation function from summarize app
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
 article_list = []
@@ -56,13 +57,13 @@ def scrape(sources):
             # Call newspaper NLP...This call is very expensive,
             # and will be replaced by a better tagging implementation
             # fetch "tags"
-            tags = news_article.keywords
+            tags = ','.join(news_article.keywords)
             a = Article(title = title,authors = authors ,content = content,url = url,date = date, tags=tags)
 
             # save the article to the database
             try:
                 a.save()
-                print("Article stored")
+                generate_events_from_articles()
             except:
                 print("There was a problem saving to db")
 

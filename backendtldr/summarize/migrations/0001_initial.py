@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import tagulous.models.fields
 import tagulous.models.models
 
 
@@ -11,22 +12,27 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('scraper', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Article',
+            name='Event',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=150)),
-                ('authors', models.CharField(max_length=200)),
-                ('content', models.CharField(max_length=90000)),
-                ('url', models.CharField(max_length=300)),
-                ('date', models.DateTimeField(verbose_name='date')),
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('title', models.CharField(max_length=200)),
+                ('ranking', models.IntegerField()),
+                ('summary', models.TextField()),
+                ('lastedited', models.DateTimeField()),
+                ('dateadded', models.DateTimeField()),
+                ('clicktraffic', models.PositiveIntegerField()),
+                ('needs_summary', models.BooleanField(default=True)),
+                ('num_tags', models.IntegerField(default=0)),
+                ('articles', models.ManyToManyField(related_name='events', to='scraper.Article')),
             ],
         ),
         migrations.CreateModel(
-            name='Tagulous_Article_tags',
+            name='Tagulous_Event_tags',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255, unique=True)),
@@ -41,7 +47,12 @@ class Migration(migrations.Migration):
             bases=(tagulous.models.models.BaseTagModel, models.Model),
         ),
         migrations.AlterUniqueTogether(
-            name='tagulous_article_tags',
+            name='tagulous_event_tags',
             unique_together=set([('slug',)]),
+        ),
+        migrations.AddField(
+            model_name='event',
+            name='tags',
+            field=tagulous.models.fields.TagField(_set_tag_meta=True, help_text='Enter a comma-separated tag string', to='summarize.Tagulous_Event_tags'),
         ),
     ]

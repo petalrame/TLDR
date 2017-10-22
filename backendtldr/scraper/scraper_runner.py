@@ -1,5 +1,5 @@
 """This file runs scraper hourly. Keep open on server."""
-import scrape
+from scraper import scrape
 import time
 
 # Seconds in an hour.

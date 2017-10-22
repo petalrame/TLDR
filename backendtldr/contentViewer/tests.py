@@ -6,7 +6,7 @@ import datetime
 import logging
 import random
 
-from .models import Event
+from summarize.models import Event
 from .serializers import EventSerializer
 
 # Create your tests here.
@@ -87,7 +87,7 @@ class UserInteractionsTestCase(TestCase):
 		if (response.status_code == 404):
 			logger.warning(response)
 
-		data = Event.objects.filter(tags__contains=['Politics']).order_by('-ranking')
+		data = Event.objects.filter(tags='Politics').order_by('-ranking')
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -99,7 +99,7 @@ class UserInteractionsTestCase(TestCase):
 		if (response.status_code == 404):
 			logger.warning(response)
 
-		data = Event.objects.filter(tags__contains=['Economy']).order_by('-ranking')
+		data = Event.objects.filter(tags='Economy').order_by('-ranking')
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -111,7 +111,7 @@ class UserInteractionsTestCase(TestCase):
 		if (response.status_code == 404):
 			logger.warning(response)
 
-		data = Event.objects.filter(tags__contains=['Tech']).order_by('-clicktraffic')
+		data = Event.objects.filter(tags='Tech').order_by('-clicktraffic')
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -123,7 +123,7 @@ class UserInteractionsTestCase(TestCase):
 		if (response.status_code == 404):
 			logger.warning(response)
 
-		data = Event.objects.filter(tags__contains=['Sports']).order_by('-clicktraffic')
+		data = Event.objects.filter(tags='Sports').order_by('-clicktraffic')
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -135,7 +135,7 @@ class UserInteractionsTestCase(TestCase):
 		if (response.status_code == 404):
 			logger.warning(response)
 
-		data = Event.objects.filter(tags__contains=['Fashion']).order_by('-clicktraffic')
+		data = Event.objects.filter(tags='Fashion').order_by('-clicktraffic')
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -147,7 +147,7 @@ class UserInteractionsTestCase(TestCase):
 		if (response.status_code == 404):
 			logger.warning(response)
 
-		data = Event.objects.filter(tags__contains=['Crime']).order_by('-dateadded')
+		data = Event.objects.filter(tags='Crime').order_by('-dateadded')
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -159,7 +159,7 @@ class UserInteractionsTestCase(TestCase):
 		if (response.status_code == 404):
 			logger.warning(response)
 
-		data = Event.objects.filter(tags__contains=['Health']).order_by('-dateadded')
+		data = Event.objects.filter(tags='Health').order_by('-dateadded')
 		serializer = EventSerializer(data, many=True)	
 
 		self.assertEqual(response.status_code, status.HTTP_200_OK)

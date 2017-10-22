@@ -6,15 +6,17 @@ Finds Events needing summarization and passes it to the Summary Handler
 from django.utils import timezone
 from summarize.models import Event
 from scraper.models import Article
+from datetime import datetime
 
 def generate_events_from_articles():
     """Creates an empty event object with fields taken from article objects."""
     # Loop through all the articles in the article table.
-    for article in Article.objects.all():
+    articles = Article.objects.all()
+    for article in articles:
         # Create an event object with attributes from the article
-        e = Event(event_title = article.title, summaries = None,  articles = article, no_tags = None,
-                  tags = article.tags, last_updated = timezone.now(), needs_summary = True)
+        e = Event(title = article.title, ranking=0, summary="", lastedited=datetime.now(), dateadded=datetime.now(),
+		clicktraffic=0, needs_summary=True, num_tags=1, tags=article.tags)
+
         # Save the data to the database
         e.save()
-        # Set the event_id of the article to the event it was just created from
-        article.event_id = e.id
+        e.articles.add(article)

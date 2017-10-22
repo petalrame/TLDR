@@ -10,9 +10,7 @@ class Article(models.Model):
     content = models.CharField(max_length=90000)
     url = models.CharField(max_length=300)
     date = models.DateTimeField('date')
-    event_id = models.ManyToManyField('summarize.Event',
-                                      related_name='article', default=None)
-    tags = tagulous.models.TagField()
+    tags = models.CharField(max_length=100)
 
 
     class Meta():

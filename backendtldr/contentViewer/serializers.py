@@ -1,4 +1,4 @@
-from .models import Event
+from summarize.models import Event
 from rest_framework import serializers
 
 class EventSerializer(serializers.ModelSerializer):

@@ -20,3 +20,4 @@ def generate_events_from_articles():
         # Save the data to the database
         e.save()
         e.articles.add(article)
+    Article.objects.all().delete()

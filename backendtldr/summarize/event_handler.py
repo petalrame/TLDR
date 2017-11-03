@@ -13,8 +13,11 @@ def generate_events_from_articles():
     # Loop through all the articles in the article table.
     articles = Article.objects.all()
     for article in articles:
+        # Check if an event already exists for a given article
+        if Event.objects.filter(event__articles=article) != None:
+            continue
         # Create an event object with attributes from the article
-        e = Event(title = article.title, ranking=0, summary="", lastedited=datetime.now(), dateadded=datetime.now(),
+        e = Event(title = article.title, ranking=0, summary=article.content, lastedited=datetime.now(), dateadded=datetime.now(),
 		clicktraffic=0, needs_summary=True, num_tags=1, tags=article.tags)
 
         # Save the data to the database

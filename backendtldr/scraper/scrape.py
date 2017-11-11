@@ -4,7 +4,9 @@ sys.path.append("newspaper-0.1.0.7")
 import newspaper
 from scraper.models import Article
 from django.utils import timezone
-from summarize.event_handler import *	#import event creation function from summarize app
+# import event creation function from summarize app
+from summarize.event_handler import *
+from summarize.summary_handler import run_summary
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
 article_list = []
@@ -58,7 +60,8 @@ def scrape(sources):
             # and will be replaced by a better tagging implementation
             # fetch "tags"
             tags = ','.join(news_article.keywords)
-            a = Article(title = title,authors = authors ,content = content,url = url,date = date, tags=tags)
+            a = Article(title=title, authors=authors,
+                        content=content, url=url, date=date, tags=tags)
 
             # save the article to the database
             try:
@@ -93,7 +96,9 @@ def run_scraper():
     print("Running...")
     sources = get_source_list()
     scrape(sources)
-    print("Scraper has completed.")
+    print("Summarizaing")
+    run_summary()
+    print("Scraper/Summ has completed.")
 
 
 if __name__ == "__main__":

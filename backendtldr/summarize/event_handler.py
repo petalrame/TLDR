@@ -8,14 +8,15 @@ from summarize.models import Event
 from scraper.models import Article
 from datetime import datetime
 
+
 def generate_events_from_articles():
     """Creates an empty event object with fields taken from article objects."""
     # Loop through all the articles in the article table.
     articles = Article.objects.all()
     for article in articles:
         # Create an event object with attributes from the article
-        e = Event(title = article.title, ranking=0, summary="", lastedited=datetime.now(), dateadded=datetime.now(),
-		clicktraffic=0, needs_summary=True, num_tags=1, tags=article.tags)
+        e = Event(title=article.title, ranking=0, summary="TEMP", lastedited=datetime.now(), dateadded=datetime.now(),
+                  clicktraffic=0, needs_summary=True, num_tags=1, tags=article.tags)
 
         # Save the data to the database
         e.save()

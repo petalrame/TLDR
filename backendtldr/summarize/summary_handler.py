@@ -6,7 +6,7 @@ import nltk
 from nltk.tokenize.stanford import StanfordTokenizer
 from nltk.tokenize.moses import MosesDetokenizer
 from summarize.models import Event
-from pgmodel import run_summarization
+from summarize.pgmodel import run_summarization
 
 # Status: In Progress
 # TODO: Get better summ model
@@ -14,17 +14,22 @@ from pgmodel import run_summarization
 
 def get_articles():
     """Gets articles that need summarization and queues them up"""
-    events = Event.objects.filter(Event__needs_summary=True)
-    article_list = {}
+    # Get a QuerySet of Event objects
+    result = Event.objects.filter(needs_summary=True)
+    article_dict = {}
     # Retreive said events and add their articles to a dictionary
-    for event in events:
-        article_list[event.id] = event.articles
-    return article_list
+    # Loop through the QuerySet and add Event Objects to a list
+    for event_obj in result:
+        articles = event_obj.articles.all()
+        for article in articles:
+            article_dict[event_obj.id] = article.content
+    return article_dict
 
 
 def tokenize(content):
     """Breaks up text-based content into tokens in the style of PTB corpus"""
-    _path_to_jar = os.path.abspath('stanford-postagger/stanford-postagger.jar')
+    _path_to_jar = os.path.abspath(
+        'summarize/stanford-postagger/stanford-postagger.jar')
     token_list = []
     st = StanfordTokenizer(path_to_jar=_path_to_jar)
     content = content.lower()
@@ -51,7 +56,7 @@ def feed_model(token_list):
     """
     Feeds token_list to model with hard-coded parameters
     """
-    summarized_tokens = run_summarization.article_summarunner(token_list)
+    summarized_tokens = run_summarization.article_summary(token_list)
     return summarized_tokens
 
 
@@ -65,10 +70,15 @@ def run_summary():
         summ_token = feed_model(token_list)
         summary = format_summary(summ_token)
         # Add summary to event object
-        event = Event.objects.get(id__exact=event_id)
-        event.summary = summary
-        event.needs_summary = False
-        event.save()
+        try:
+            event = Event.objects.get(id=event_id)
+            print("SAVING SUMMARY TO EVENT")
+            event.summary = summary
+            event.needs_summary = False
+            event.save()
+            print(event.summary)
+        except:
+            print("Something went wrong with getting/saving event")
 
 
 def test():

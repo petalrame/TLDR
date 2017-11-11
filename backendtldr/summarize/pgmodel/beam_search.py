@@ -18,7 +18,7 @@
 
 import tensorflow as tf
 import numpy as np
-from pgmodel import data
+from summarize.pgmodel import data
 
 FLAGS = tf.app.flags.FLAGS
 

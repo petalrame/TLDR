@@ -19,10 +19,10 @@
 import os
 import time
 import tensorflow as tf
-from pgmodel import beam_search
-from pgmodel import data
+from summarize.pgmodel import beam_search
+from summarize.pgmodel import data
 import json
-from pgmodel import util
+from summarize.pgmodel import util
 import logging
 import numpy as np
 
@@ -71,5 +71,5 @@ class BeamSearchDecoder(object):
                 decoded_words = decoded_words[:fst_stop_idx]
             except ValueError:
                 decoded_words = decoded_words
-
-            return decoded_words
+            break
+        return decoded_words

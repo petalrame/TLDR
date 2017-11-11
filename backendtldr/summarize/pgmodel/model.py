@@ -20,7 +20,7 @@ import os
 import time
 import numpy as np
 import tensorflow as tf
-from pgmodel.attention_decoder import attention_decoder
+from summarize.pgmodel.attention_decoder import attention_decoder
 from tensorflow.contrib.tensorboard.plugins import projector
 
 FLAGS = tf.app.flags.FLAGS
@@ -370,6 +370,7 @@ class SummarizationModel(object):
         """Add the placeholders, model, global step, train_op and summaries to the graph"""
         tf.logging.info('Building graph...')
         t0 = time.time()
+        tf.reset_default_graph()
         self._add_placeholders()
         with tf.device("/cpu:0"):
             self._add_seq2seq()

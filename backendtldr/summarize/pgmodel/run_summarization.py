@@ -22,11 +22,11 @@ import os
 import tensorflow as tf
 import numpy as np
 from collections import namedtuple
-from pgmodel.data import Vocab
-from pgmodel.batcher import Batcher
-from pgmodel.model import SummarizationModel
-from pgmodel.decode import BeamSearchDecoder
-from pgmodel import util
+from summarize.pgmodel.data import Vocab
+from summarize.pgmodel.batcher import Batcher
+from summarize.pgmodel.model import SummarizationModel
+from summarize.pgmodel.decode import BeamSearchDecoder
+from summarize.pgmodel import util
 from tensorflow.python import debug as tf_debug
 
 FLAGS = tf.app.flags.FLAGS
@@ -89,20 +89,8 @@ tf.app.flags.DEFINE_boolean('restore_best_model', False,
 tf.app.flags.DEFINE_boolean(
     'debug', False, "Run in tensorflow's debug mode (watches for NaN/inf values)")
 
-article_token_list = []
 
-
-def article_summarunner(article_tokens):
-    """Runs the model in production mode"""
-    # tf parses argv[1:] so make sure to enter correctly
-    # TODO: Get vocab path
-    for tok in article_tokens:
-        article_token_list.append(tok)
-    # tf.app.run()
-    return article_summary()
-
-
-def article_summary():
+def article_summary(article_tokens):
     """Calls the model and returns a list of tokens for the summary"""
 
     FLAGS.mode = 'production'
@@ -110,18 +98,15 @@ def article_summary():
     FLAGS.coverage = True
     FLAGS.pointer_gen = True
     FLAGS.vocab_path = os.path.abspath(
-        'pgmodel/log_root/experiment1/train/vocab')
-    FLAGS.log_root = os.path.abspath('pgmodel/log_root/')
-    FLAGS.data_path = os.path.abspath('pgmodel/data/')
+        'summarize/pgmodel/log_root/experiment1/train/vocab')
+    FLAGS.log_root = os.path.abspath('summarize/pgmodel/log_root/')
+    FLAGS.data_path = os.path.abspath('summarize/pgmodel/data/')
     FLAGS.exp_name = 'experiment2'
     FLAGS.batch_size = FLAGS.beam_size
     FLAGS.max_dec_steps = 200
 
     # Set the vocab path
     vocab = Vocab(FLAGS.vocab_path, FLAGS.vocab_size)
-
-    # Set article_tokens
-    token_list = article_token_list
 
     # Make a namedtuple hps, containing the values of the hyperparameters that the model needs
     hparam_list = ['mode', 'lr', 'adagrad_init_acc', 'rand_unif_init_mag', 'trunc_norm_init_std', 'max_grad_norm',
@@ -135,7 +120,7 @@ def article_summary():
     # Create a batcher object that will create a minibatch of data
     # Note that the FLAGS.data_path is None
     batcher = Batcher(FLAGS.data_path, vocab, hps,
-                      FLAGS.single_pass, token_list)
+                      FLAGS.single_pass, article_tokens)
 
     print("Running in production mode...")
     # TODO: Make sure this works
@@ -145,7 +130,6 @@ def article_summary():
     # TODO: Change batcher to something else
     decoder = BeamSearchDecoder(model, batcher, vocab)
     summ_list = decoder.decode()
-    print(summ_list)
     return summ_list
 
 

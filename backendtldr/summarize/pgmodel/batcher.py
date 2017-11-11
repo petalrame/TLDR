@@ -22,7 +22,7 @@ from threading import Thread
 import time
 import numpy as np
 import tensorflow as tf
-from pgmodel import data
+from summarize.pgmodel import data
 
 
 class Example(object):

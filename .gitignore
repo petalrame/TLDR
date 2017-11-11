@@ -1,2 +1,6 @@
 *.pyc
 .idea/workspace.xml
+
+backendtldr/.DS_Store
+
+*.pyc

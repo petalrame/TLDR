@@ -54,7 +54,8 @@ class BeamSearchDecoder(object):
         """Decode examples until data is exhausted (if FLAGS.single_pass) and return, or decode indefinitely, loading latest checkpoint at regular intervals"""
         while True:
             batch = self._batcher.next_batch()  # 1 example repeated across batch
-
+            if batch is None:
+                break
             # Run beam search to get best Hypothesis
             best_hyp = beam_search.run_beam_search(
                 self._sess, self._model, self._vocab, batch)
@@ -71,5 +72,4 @@ class BeamSearchDecoder(object):
                 decoded_words = decoded_words[:fst_stop_idx]
             except ValueError:
                 decoded_words = decoded_words
-            break
         return decoded_words

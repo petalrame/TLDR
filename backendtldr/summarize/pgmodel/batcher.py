@@ -305,8 +305,8 @@ class Batcher(object):
         """
         # If the batch queue is empty, print a warning
         if self._batch_queue.qsize() == 0:
-            tf.logging.warning('Bucket input queue is empty when calling next_batch. Bucket queue size: %i, Input queue size: %i',
-                               self._batch_queue.qsize(), self._example_queue.qsize())
+            #tf.logging.warning('Bucket input queue is empty when calling next_batch. Bucket queue size: %i, Input queue size: %i',
+            #                   self._batch_queue.qsize(), self._example_queue.qsize())
             if self._single_pass and self._finished_reading:
                 tf.logging.info(
                     "Finished reading dataset in single_pass mode.")
@@ -322,38 +322,9 @@ class Batcher(object):
             # Make an Example from passed article string and passes dummy list to abstract_sentence
             example = Example(self._article, [
                               'hello world', 'this is a dummy string'], self._vocab, self._hps)
+            self._finished_reading = True
             self._example_queue.put(example)
             return
-        """
-        # Gets things
-        input_gen = self.text_generator(
-            data.example_generator(self._data_path, self._single_pass))
-
-        while True:
-            try:
-                # read the next example from file. article and abstract are both strings.
-                (article, abstract) = next(input_gen)
-            except StopIteration:  # if there are no more examples:
-                tf.logging.info(
-                    "The example generator for this example queue filling thread has exhausted data.")
-                if self._single_pass:
-                    tf.logging.info(
-                        "single_pass mode is on, so we've finished reading dataset. This thread is stopping.")
-                    self._finished_reading = True
-                    break
-                else:
-                    raise Exception(
-                        "single_pass mode is off but the example generator is out of data; error.")
-
-            # Use the <s> and </s> tags in abstract to get a list of sentences.
-            abstract_sentences = [sent.strip()
-                                  for sent in data.abstract2sents(abstract)]
-            # Process into an Example.
-            example = Example(article, abstract_sentences,
-                              self._vocab, self._hps)
-            # place the Example in the example queue.
-            self._example_queue.put(example)
-        """
 
     def fill_batch_queue(self):
         """Takes Examples out of example queue, sorts them by encoder sequence length, processes into Batches and places them in the batch queue.

@@ -26,7 +26,7 @@ from summarize.pgmodel.data import Vocab
 from summarize.pgmodel.batcher import Batcher
 from summarize.pgmodel.model import SummarizationModel
 from summarize.pgmodel.decode import BeamSearchDecoder
-from summarize.pgmodel import util
+import summarize.pgmodel.util
 from tensorflow.python import debug as tf_debug
 
 FLAGS = tf.app.flags.FLAGS
@@ -40,7 +40,7 @@ tf.app.flags.DEFINE_string(
 # Important settings
 tf.app.flags.DEFINE_string(
     'mode', 'train', 'must be one of train/eval/decode/production')
-tf.app.flags.DEFINE_boolean('single_pass', False, 'For decode mode only. If True, run eval on the full dataset using a fixed checkpoint, i.e. take the current checkpoint, and use it to produce one summary for each example in the dataset, write the summaries to file and then get ROUGE scores for the whole dataset. If False (default), run concurrent decoding, i.e. repeatedly load latest checkpoint, use it to produce summaries for randomly-chosen examples and log the results to screen, indefinitely.')
+tf.app.flags.DEFINE_boolean('single_pass', True, 'For decode mode only. If True, run eval on the full dataset using a fixed checkpoint, i.e. take the current checkpoint, and use it to produce one summary for each example in the dataset, write the summaries to file and then get ROUGE scores for the whole dataset. If False (default), run concurrent decoding, i.e. repeatedly load latest checkpoint, use it to produce summaries for randomly-chosen examples and log the results to screen, indefinitely.')
 
 # Where to save output
 tf.app.flags.DEFINE_string('log_root', '', 'Root directory for all logging.')
@@ -76,7 +76,7 @@ tf.app.flags.DEFINE_boolean(
     'pointer_gen', True, 'If True, use pointer-generator model. If False, use baseline model.')
 
 # Coverage hyperparameters
-tf.app.flags.DEFINE_boolean('coverage', False, 'Use coverage mechanism. Note, the experiments reported in the ACL paper train WITHOUT coverage until converged, and then train for a short phase WITH coverage afterwards. i.e. to reproduce the results in the ACL paper, turn this off for most of training then turn on for a short phase at the end.')
+tf.app.flags.DEFINE_boolean('coverage', True, 'Use coverage mechanism. Note, the experiments reported in the ACL paper train WITHOUT coverage until converged, and then train for a short phase WITH coverage afterwards. i.e. to reproduce the results in the ACL paper, turn this off for most of training then turn on for a short phase at the end.')
 tf.app.flags.DEFINE_float(
     'cov_loss_wt', 1.0, 'Weight of coverage loss (lambda in the paper). If zero, then no incentive to minimize coverage loss.')
 
@@ -94,16 +94,13 @@ def article_summary(article_tokens):
     """Calls the model and returns a list of tokens for the summary"""
 
     FLAGS.mode = 'production'
-    FLAGS.single_pass = True
-    FLAGS.coverage = True
-    FLAGS.pointer_gen = True
     FLAGS.vocab_path = os.path.abspath(
-        'summarize/pgmodel/log_root/experiment1/train/vocab')
-    FLAGS.log_root = os.path.abspath('summarize/pgmodel/log_root/')
-    FLAGS.data_path = os.path.abspath('summarize/pgmodel/data/')
+        'summarize/pgmodel/log_root/experiment2/train/vocab')
+    print(FLAGS.vocab_path)
+    FLAGS.log_root = os.path.abspath('summarize/pgmodel/log_root')
+    FLAGS.data_path = os.path.abspath('data/')
     FLAGS.exp_name = 'experiment2'
     FLAGS.batch_size = FLAGS.beam_size
-    FLAGS.max_dec_steps = 200
 
     # Set the vocab path
     vocab = Vocab(FLAGS.vocab_path, FLAGS.vocab_size)
@@ -121,13 +118,10 @@ def article_summary(article_tokens):
     # Note that the FLAGS.data_path is None
     batcher = Batcher(FLAGS.data_path, vocab, hps,
                       FLAGS.single_pass, article_tokens)
-
-    print("Running in production mode...")
-    # TODO: Make sure this works
+                      
     _hps = hps
     _hps = hps._replace(max_dec_steps=1)
     model = SummarizationModel(_hps, vocab)
-    # TODO: Change batcher to something else
     decoder = BeamSearchDecoder(model, batcher, vocab)
     summ_list = decoder.decode()
     return summ_list
@@ -180,6 +174,13 @@ def main(unused_argv):
         raise ValueError(
             "The 'mode' flag must be one of train/eval/decode/production")
 
+def test():
+    f = open('articles/000001_article.txt', 'r')
+    article = f.read()
+    tokens = article.split()
+    summary_tokens = article_summary(tokens)
+    print("SUMARRY: ", ' '.join(summary_tokens))
+    print("--------------------------------------------------------------------------------\n")
 
 if __name__ == '__main__':
-    tf.app.run()
+    test()

@@ -159,10 +159,10 @@ class SummarizationModel(object):
             hps.hidden_dim, state_is_tuple=True, initializer=self.rand_unif_init)
 
         # In decode mode, we run attention_decoder one step at a time and so need to pass in the previous step's coverage vector each time
-        prev_coverage = self.prev_coverage if hps.mode == "decode" and hps.coverage else None
+        prev_coverage = self.prev_coverage if hps.mode == "production" and hps.coverage else None
 
         outputs, out_state, attn_dists, p_gens, coverage = attention_decoder(inputs, self._dec_in_state, self._enc_states, self._enc_padding_mask, cell, initial_state_attention=(
-            hps.mode == "decode"), pointer_gen=hps.pointer_gen, use_coverage=hps.coverage, prev_coverage=prev_coverage)
+            hps.mode == "production"), pointer_gen=hps.pointer_gen, use_coverage=hps.coverage, prev_coverage=prev_coverage)
 
         return outputs, out_state, attn_dists, p_gens, coverage
 

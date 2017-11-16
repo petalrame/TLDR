@@ -1,11 +1,12 @@
 """
 Tokenizes, queues, summarizes, and formats the content passed here.
 """
+import sys
 import os
 import nltk
 from nltk.tokenize.stanford import StanfordTokenizer
 from nltk.tokenize.moses import MosesDetokenizer
-from summarize.models import Event
+from .models import Event
 from summarize.pgmodel import run_summarization
 
 # Status: In Progress
@@ -43,6 +44,12 @@ def format_summary(token_list):
     Args: token_list(a list/sequence of tokens)
     Returns: A content string
     """
+    #Replaces any instance of -LRB- and -RRB- with '(' and ')' respectively
+    for pos, tok in token_list:
+        if tok == '-LRB-':
+            token_list[pos] = '('
+        elif tok == '-RRB-':
+            token_list[pos] = ')'
 
     detokenizer = MosesDetokenizer()
     summary = detokenizer.detokenize(token_list, return_str=True)
@@ -69,6 +76,10 @@ def run_summary():
         token_list = tokenize(article)
         summ_token = feed_model(token_list)
         summary = format_summary(summ_token)
+        #print("HERE IS THE ARTICLE: ", article)
+        #print("-----------------------------------------------------------------------------------------------------------\n")
+        #print("HERE IS TEH SUMMARY: ", summary)
+        #print("-----------------------------------------------------------------------------------------------------------\n")
         # Add summary to event object
         try:
             event = Event.objects.get(id=event_id)
@@ -76,7 +87,6 @@ def run_summary():
             event.summary = summary
             event.needs_summary = False
             event.save()
-            print(event.summary)
         except:
             print("Something went wrong with getting/saving event")
 

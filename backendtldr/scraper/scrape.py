@@ -5,8 +5,7 @@ import newspaper
 from scraper.models import Article
 from django.utils import timezone
 # import event creation function from summarize app
-from summarize.event_handler import *
-from summarize.summary_handler import run_summary
+from summarize import event_handler, summary_handler
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
 article_list = []
@@ -66,7 +65,7 @@ def scrape(sources):
             # save the article to the database
             try:
                 a.save()
-                generate_events_from_articles()
+                event_handler.generate_events_from_articles()
             except:
                 print("There was a problem saving to db")
 
@@ -94,10 +93,10 @@ def display_data():
 def run_scraper():
     """Call all necessary scraper functions."""
     print("Running...")
-    sources = get_source_list()
-    scrape(sources)
+    #sources = get_source_list()
+    #scrape(sources)
     print("Summarizaing")
-    run_summary()
+    summary_handler.run_summary()
     print("Scraper/Summ has completed.")
 
 

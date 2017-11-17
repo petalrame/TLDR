@@ -37,10 +37,14 @@ def scrape(sources):
     for source in sources:
         for news_article in source.articles:
             try:
+                #print("Downloading")
                 news_article.download()
+                #print("Parsing")
                 news_article.parse()
+                #print("NLP")
                 news_article.nlp()
             except:
+                print("Failed article for:", news_article)
                 continue
             if news_article.title is not None:
                 title = ''.join(news_article.title)
@@ -64,11 +68,11 @@ def scrape(sources):
 
             # save the article to the database
             try:
+                #print("Paring and Summarizing")
                 a.save()
                 event_handler.generate_events_from_articles()
             except:
                 print("There was a problem saving", a, "to db")
-                print(a.tags)
 
 
 def format_author(author):

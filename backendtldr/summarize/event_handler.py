@@ -16,11 +16,11 @@ def generate_events_from_articles():
     articles = Article.objects.all()
     for article in articles:
         # Create an event object with attributes from the article
-        if Event.objects.filter(articles=article) is not None:
-            #print("Duplicate")
-            continue
-        
+        # Check for duplicates
+        # if Event.objects.all().filter(articles=article) != None:
+        #   continue
         print("SUMMARIZING AND SAVING")
+
         summary = run_summary(article.content)
 
         e = Event(title=article.title, ranking=0, summary=summary, lastedited=datetime.now(), dateadded=datetime.now(),

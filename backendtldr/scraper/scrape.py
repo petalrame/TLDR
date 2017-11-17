@@ -4,7 +4,7 @@ sys.path.append("newspaper-0.1.0.7")
 import newspaper
 from scraper.models import Article
 from django.utils import timezone
-# import event creation function from summarize app
+from summarize import summary_handler
 from summarize import event_handler
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
@@ -15,11 +15,11 @@ def get_source_list():
     """Build newspaper objects for scraping. Returns a list."""
     # Build Papers Objects to be downloaded and parsed for data extraction.
     tech_crunch = newspaper.build(
-        'https://www.techcrunch.com/', memoize_articles=False, language='en')
+        'https://www.techcrunch.com/', memoize_articles=True, language='en')
     fox = newspaper.build(
         'https://www.foxnews.com/', memoize_articles=False, language='en')
     nytimes = newspaper.build(
-        'http://nytimes.com', memoize_articles=True, language='en')
+        'http://nytimes.com', memoize_articles=False, language='en')
     wsj = newspaper.build(
         'http://wsj.com', memoize_articles=True, language='en')
     bbc = newspaper.build(
@@ -37,14 +37,10 @@ def scrape(sources):
     for source in sources:
         for news_article in source.articles:
             try:
-                #print("Downloading")
                 news_article.download()
-                #print("Parsing")
                 news_article.parse()
-                #print("NLP")
                 news_article.nlp()
             except:
-                print("Failed article for:", news_article)
                 continue
             if news_article.title is not None:
                 title = ''.join(news_article.title)
@@ -67,12 +63,10 @@ def scrape(sources):
                         content=content, url=url, date=date, tags=tags)
 
             # save the article to the database
-            try:
-                #print("Paring and Summarizing")
-                a.save()
-                event_handler.generate_events_from_articles()
-            except:
-                print("There was a problem saving", a, "to db")
+
+            print("Paring and Summarizing")
+            a.save()
+            event_handler.generate_events_from_articles()
 
 
 def format_author(author):
@@ -100,8 +94,8 @@ def run_scraper():
     print("Running...")
     sources = get_source_list()
     scrape(sources)
-    #print("Summarizaing")
-    #summary_handler.run_summary()
+    print("Summarizaing")
+    # summary_handler.run_summary()
     print("Scraper/Summ has completed.")
 
 

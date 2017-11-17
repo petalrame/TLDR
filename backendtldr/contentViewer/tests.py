@@ -1,6 +1,7 @@
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
+from django.contrib.auth.models import User
 
 import datetime
 import logging
@@ -10,7 +11,52 @@ from summarize.models import Event
 from .serializers import EventSerializer
 
 # Create your tests here.
-class UserInteractionsTestCase(TestCase):
+class UserTestCase(TestCase):
+	
+	def setUp(self):
+		User.objects.create_user(username="cat", email="cat@yahoo.com", password="george")
+		User.objects.create_user(username="cat1", email="cat1@yahoo.com", password="george1")
+		User.objects.create_user(username="cat2", email="cat2@yahoo.com", password="george2")
+
+	def test_user_register(self):
+		client = APIClient()
+		logger = logging.getLogger(__name__)
+
+		response = self.client.post('/api/users/' , {'username': 'bob', 'email': 'bob@gmail.com', 'password': 'bobiscool'})
+
+		if (response.status_code == 404):
+			logger.warning(response)
+
+		usr = User.objects.get(username="bob")
+
+		self.assertEqual(usr.username, "bob")
+
+	def test_user_login(self):
+		client = APIClient()
+		logger = logging.getLogger(__name__)
+
+		response = self.client.post('/api/users/0/login/' , {'username': 'cat', 'password': 'george'})
+		
+		#should be a successful login
+
+		response = self.client.post('/api/users/0/login/' , {'username': 'cat1', 'password': 'george'})
+
+		#should be a failed login
+
+	def test_user_login_then_logout(self):
+		client = APIClient()
+		logger = logging.getLogger(__name__)
+
+		response = self.client.post('/api/users/0/login/' , {'username': 'cat2', 'password': 'george2'})
+		
+		#should be a successful login
+
+		#log user out
+		response = self.client.post('/api/users/0/logout/')
+
+		
+
+class InteractionsTestCase(TestCase):
 
 	now = datetime.datetime.now()
 

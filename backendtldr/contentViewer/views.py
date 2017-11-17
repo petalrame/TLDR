@@ -1,18 +1,85 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 import logging
+from django.contrib.auth import login, logout, authenticate
 
 from summarize.models import Event
-from .serializers import EventSerializer
+from django.contrib.auth.models import User
+from .serializers import EventSerializer, UserSerializer
 
 # Create your views here.
 
 def loadSite(request):
 	return render(request, 'contentViewer/index.html')
 
+class UserAccountViewSet(viewsets.ViewSet):
+
+	#Register and Create User
+	def create(self, request):
+		username = request.data.get("username")
+		password = request.data.get("password")
+		email = request.data.get("email")
+
+		#create user
+		user = User.objects.create_user(username=username, email=email, password=password)
+
+		#log user in
+		login_result = authenticate(request, username=username, password=password)
+		if login_result is not None:
+			#user authenticated. log user in
+			login(request, login_result)
+		else:
+			#error user not authenticated
+			return Response(status=status.HTTP_401_UNAUTHORIZED)
+			
+
+		serializer = UserSerializer(user)		#Serialize data
+		#json = JSONRenderer().render(serializer.data)
+		#return Response(serializer.data, status=status.HTTP_200_OK)
+		return redirect("/")
+
+	#login User
+	@detail_route(methods=['POST'])
+	def login(self, request, pk=None):
+		username = request.data.get("username")
+		password = request.data.get("password")
+
+		#log user in
+		user = authenticate(request, username=username, password=password)
+		if user is not None:
+			#user authenticated. log user in
+			login(request, user)
+		else:
+			#error user not authenticated
+			return Response(status=status.HTTP_401_UNAUTHORIZED)
+			
+
+		serializer = UserSerializer(user)		#Serialize data
+		#json = JSONRenderer().render(serializer.data)
+		#return Response(serializer.data, status=status.HTTP_200_OK)
+		return redirect("/")
+
+
+	#logout User
+	@detail_route(methods=["POST"])
+	def logout(self, request, pk=None):
+		logout(request)
+		return Response(status=status.HTTP_200_OK)
+	
+		
+	@detail_route(methods=['GET'])
+	def login_status(self, request, pk=None):
+		if request.user.is_authenticated:
+			return Response({'login_status': 1}, status=status.HTTP_200_OK)
+		else:
+			return Response({'login_status': 0}, status=status.HTTP_200_OK)
+			
+
+	
 class UserInteractionsViewSet(viewsets.ViewSet):
 	"""
 	ViewSet for retreiving data from Event Table. Updating

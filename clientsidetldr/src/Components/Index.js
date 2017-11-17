@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import Header from './Header/Header.js';
+
 import PoliticsPage from './Pages/PoliticsPage/PoliticsPage';
 import TechPage from './Pages/TechPage/TechPage';
 import FashionPage from './Pages/FashionPage/FashionPage';
@@ -67,11 +69,16 @@ const homeControl = () => (
 	</Switch>
 )
 
+var divStyle = {
+	height: '40px'
+}
 
 class Index extends Component {
 	render() {
 		return(
 			<div>
+				<Header />
+				<div style={divStyle}></div>
 				<Switch>
 					<Route path="/politics" component={politicsControl} />
 					<Route path="/economy" component={economyControl} />

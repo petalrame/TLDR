@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import styles from "./Entry.css";
 import pic from "../images/cat3.jpg";
+import imageNotAvailable from "../Pages/images/image_not_available.png";
 
 class Entry extends Component {
 	constructor(props) {
@@ -87,7 +88,7 @@ class Entry extends Component {
 					</div>
 					<span className={styles.likeCount}>{this.state.likeCount}</span>
 				</div>
-				<img src={pic} className={styles.pic} alt="Not Available"></img>
+				<img src={imageNotAvailable} className={styles.pic}></img>
 				<div className={styles.description}>
 					<h2 className={styles.link}>{this.props.title}</h2>
 					<p className={styles.textDescription}>{this.props.summary}</p>

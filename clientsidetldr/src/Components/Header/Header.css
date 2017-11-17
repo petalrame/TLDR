@@ -29,3 +29,13 @@
 	top: 0;
 	width: 100%;
 }
+
+.loginbutton {
+	position: absolute;
+	background: silver;
+	border: .1em solid #1affff;
+	width:80px;
+	right: 10px;
+	top: 10px;
+	font-weight: 700;
+}

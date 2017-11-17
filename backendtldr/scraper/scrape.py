@@ -5,7 +5,7 @@ import newspaper
 from scraper.models import Article
 from django.utils import timezone
 # import event creation function from summarize app
-from summarize import event_handler, summary_handler
+from summarize import event_handler
 # List of article dictionaries.
 # Dicts must contain Author, Url, Body text and datetime added
 article_list = []
@@ -26,9 +26,9 @@ def get_source_list():
         'http://bbcnews.com', memoize_articles=True, language='en')
     cnn = newspaper.build(
         'http://cnn.com', memoize_articles=True, language='en')
-    breit = newspaper.build(
-        'http://breitbart.com', memoize_articles=True, language='en')
-    papers = [fox, nytimes, wsj, bbc, cnn, breit]
+    ap = newspaper.build(
+        'https://www.ap.org/en-us/', memoize_articles=True, language='en')
+    papers = [fox, nytimes, wsj, bbc, cnn, ap]
     return papers
 
 
@@ -93,10 +93,10 @@ def display_data():
 def run_scraper():
     """Call all necessary scraper functions."""
     print("Running...")
-    #sources = get_source_list()
-    #scrape(sources)
-    print("Summarizaing")
-    summary_handler.run_summary()
+    sources = get_source_list()
+    scrape(sources)
+    #print("Summarizaing")
+    #summary_handler.run_summary()
     print("Scraper/Summ has completed.")
 
 

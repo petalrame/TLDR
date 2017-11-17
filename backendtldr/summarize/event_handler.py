@@ -7,6 +7,7 @@ from django.utils import timezone
 from summarize.models import Event
 from scraper.models import Article
 from datetime import datetime
+from summarize.summary_handler import run_summary
 
 
 def generate_events_from_articles():
@@ -15,8 +16,13 @@ def generate_events_from_articles():
     articles = Article.objects.all()
     for article in articles:
         # Create an event object with attributes from the article
-        e = Event(title=article.title, ranking=0, summary="TEMP", lastedited=datetime.now(), dateadded=datetime.now(),
-                  clicktraffic=0, needs_summary=True, num_tags=1, tags=article.tags)
+        if article is not None:
+            print("SUMMARIZING AND SAVING")
+            summary = run_summary(article.content)
+        else:
+            summary = "None"
+        e = Event(title=article.title, ranking=0, summary=summary, lastedited=datetime.now(), dateadded=datetime.now(),
+                  clicktraffic=0, needs_summary=False, num_tags=1, tags=article.tags)
 
         # Save the data to the database
         e.save()

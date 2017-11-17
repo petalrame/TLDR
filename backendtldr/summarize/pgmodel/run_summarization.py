@@ -96,7 +96,6 @@ def article_summary(article_tokens):
     FLAGS.mode = 'production'
     FLAGS.vocab_path = os.path.abspath(
         'summarize/pgmodel/log_root/experiment2/train/vocab')
-    print(FLAGS.vocab_path)
     FLAGS.log_root = os.path.abspath('summarize/pgmodel/log_root')
     FLAGS.data_path = os.path.abspath('data/')
     FLAGS.exp_name = 'experiment2'

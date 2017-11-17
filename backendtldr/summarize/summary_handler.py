@@ -45,11 +45,11 @@ def format_summary(token_list):
     Returns: A content string
     """
     #Replaces any instance of -LRB- and -RRB- with '(' and ')' respectively
-    for pos, tok in token_list:
+    for idx, tok in enumerate(token_list):
         if tok == '-LRB-':
-            token_list[pos] = '('
+            token_list[idx] = '('
         elif tok == '-RRB-':
-            token_list[pos] = ')'
+            token_list[idx] = ')'
 
     detokenizer = MosesDetokenizer()
     summary = detokenizer.detokenize(token_list, return_str=True)
@@ -67,28 +67,30 @@ def feed_model(token_list):
     return summarized_tokens
 
 
-def run_summary():
+def run_summary(article):
     """Takes events that need a summary and returns summarized content"""
     # Get the dictionary of articles that needs a summary
-    articles = get_articles()
+    #articles = get_articles()
     # process article(tokenize, feed and format)
-    for event_id, article in articles.items():
-        token_list = tokenize(article)
-        summ_token = feed_model(token_list)
-        summary = format_summary(summ_token)
+    #for event_id, article in articles.items():
+    token_list = tokenize(article)
+    summ_token = feed_model(token_list)
+    summary = format_summary(summ_token)
+    return summary
         #print("HERE IS THE ARTICLE: ", article)
         #print("-----------------------------------------------------------------------------------------------------------\n")
         #print("HERE IS TEH SUMMARY: ", summary)
         #print("-----------------------------------------------------------------------------------------------------------\n")
         # Add summary to event object
-        try:
-            event = Event.objects.get(id=event_id)
-            print("SAVING SUMMARY TO EVENT")
-            event.summary = summary
-            event.needs_summary = False
-            event.save()
-        except:
-            print("Something went wrong with getting/saving event")
+        #try:
+        #Event.objects.filter(id=event_id).update(summary=summary, needs_summary=False)
+            #print("SAVING SUMMARY TO EVENT")
+            #event.summary = summary
+            #event.needs_summary = False
+            #print(event.sumamry)
+            #event.save()
+        #except:
+            #print("Something went wrong with getting/saving event")
 
 
 def test():

@@ -5,6 +5,7 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'', views.UserInteractionsViewSet, base_name="user_interaction")
+router.register(r'users', views.UserAccountViewSet, base_name="user_account")
 
 urlpatterns = [
 	url(r'^api/', include(router.urls)),

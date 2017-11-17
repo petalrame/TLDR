@@ -7,6 +7,7 @@ import twitter_logo from "./logos/twitter_logo.png";
 import Comments from "./Comments/Comments.js";
 import upPic from "../../images/chevron-up.png";
 import downPic from "../../images/chevron-down.png";
+import imageNotAvailable from "../images/image_not_available.png";
 
 
 class Article extends Component {
@@ -126,7 +127,7 @@ class Article extends Component {
 				<h1 className={styles.title}>{this.state.pageContent.title}</h1>
 
 				<div className={styles.infoBox}>
-					<img src={catPic} className={styles.Image} alt="Article Image"></img>
+					<img src={imageNotAvailable} className={styles.Image} alt="Article Image"></img>
 					<div className={styles.pageInfoBox}>
 						<p>Event Published on (Insert Date)</p>
 						<p>Event Last Edited on (Insert Date)</p>

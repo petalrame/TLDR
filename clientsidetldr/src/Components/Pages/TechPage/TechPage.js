@@ -54,7 +54,7 @@ class TechPage extends Component {
 				<EntrySortButtons changeEntryOrder={this.getEntryData}/>
 				{this.state.content.map((item) => (
 					<Link to={"/" + item.id} key={item.id} className={styles.link}>
-						<Entry title={item.title} ranking={item.ranking} summary={item.summary} />
+						<Entry title={item.title} ranking={item.ranking} summary={item.summary} idval={item.id} />
 					</Link>
 				))}
 			</div>

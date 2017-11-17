@@ -16,11 +16,15 @@ def generate_events_from_articles():
     articles = Article.objects.all()
     for article in articles:
         # Create an event object with attributes from the article
+        if Event.objects.filter(articles=article) is not None:
+             continue
+        
         if article is not None:
             print("SUMMARIZING AND SAVING")
             summary = run_summary(article.content)
         else:
-            summary = "None"
+            summary = "Not Available"
+
         e = Event(title=article.title, ranking=0, summary=summary, lastedited=datetime.now(), dateadded=datetime.now(),
                   clicktraffic=0, needs_summary=False, num_tags=1, tags=article.tags)
 

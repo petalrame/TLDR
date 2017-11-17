@@ -10,7 +10,7 @@ class Article(models.Model):
     content = models.CharField(max_length=90000)
     url = models.CharField(max_length=300)
     date = models.DateTimeField('date')
-    tags = models.CharField(max_length=100)
+    tags = models.CharField(max_length=300)
 
 
     class Meta():

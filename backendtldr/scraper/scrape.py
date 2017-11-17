@@ -67,7 +67,8 @@ def scrape(sources):
                 a.save()
                 event_handler.generate_events_from_articles()
             except:
-                print("There was a problem saving to db")
+                print("There was a problem saving", a, "to db")
+                print(a.tags)
 
 
 def format_author(author):

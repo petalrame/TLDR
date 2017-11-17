@@ -12,21 +12,6 @@ from summarize.pgmodel import run_summarization
 # Status: In Progress
 # TODO: Get better summ model
 
-
-def get_articles():
-    """Gets articles that need summarization and queues them up"""
-    # Get a QuerySet of Event objects
-    result = Event.objects.filter(needs_summary=True)
-    article_dict = {}
-    # Retreive said events and add their articles to a dictionary
-    # Loop through the QuerySet and add Event Objects to a list
-    for event_obj in result:
-        articles = event_obj.articles.all()
-        for article in articles:
-            article_dict[event_obj.id] = article.content
-    return article_dict
-
-
 def tokenize(content):
     """Breaks up text-based content into tokens in the style of PTB corpus"""
     _path_to_jar = os.path.abspath(
@@ -70,27 +55,13 @@ def feed_model(token_list):
 def run_summary(article):
     """Takes events that need a summary and returns summarized content"""
     # Get the dictionary of articles that needs a summary
-    #articles = get_articles()
     # process article(tokenize, feed and format)
-    #for event_id, article in articles.items():
     token_list = tokenize(article)
+    if len(token_list) < 30:
+        return format_summary(token_list)
     summ_token = feed_model(token_list)
     summary = format_summary(summ_token)
     return summary
-        #print("HERE IS THE ARTICLE: ", article)
-        #print("-----------------------------------------------------------------------------------------------------------\n")
-        #print("HERE IS TEH SUMMARY: ", summary)
-        #print("-----------------------------------------------------------------------------------------------------------\n")
-        # Add summary to event object
-        #try:
-        #Event.objects.filter(id=event_id).update(summary=summary, needs_summary=False)
-            #print("SAVING SUMMARY TO EVENT")
-            #event.summary = summary
-            #event.needs_summary = False
-            #print(event.sumamry)
-            #event.save()
-        #except:
-            #print("Something went wrong with getting/saving event")
 
 
 def test():
